@@ -77,6 +77,10 @@ export async function createCjOrder(input: CjCreateOrderInput) {
     fromCountryCode: input.fromCountryCode,
     logisticName: input.logisticName,
     products: input.products,
+    // 3 = déclarer avec l'IOSS de CJ (le paramètre de compte "Pas d'IOSS" par
+    // défaut n'est apparemment pas repris automatiquement par cet endpoint).
+    iossType: 3,
+    iossNumber: "CJ-IOSS",
     // Une commande sandbox ne déclenche jamais de vrai paiement, de vraie
     // logistique ni de vrai débit : indispensable tant qu'on n'a pas validé
     // le flux de bout en bout.

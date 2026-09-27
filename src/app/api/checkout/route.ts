@@ -59,6 +59,9 @@ export async function POST(request: NextRequest) {
       success_url: `${origin}/commande/succes?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/panier`,
       shipping_address_collection: { allowed_countries: ["FR", "BE", "CH", "LU"] },
+      // Le numéro de téléphone est requis par CJdropshipping pour passer la
+      // commande fournisseur automatiquement.
+      phone_number_collection: { enabled: true },
     });
 
     if (!session.url) {

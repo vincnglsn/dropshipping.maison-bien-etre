@@ -185,6 +185,7 @@ async function placeSupplierOrder(
       shippingCustomerName: shipping.name ?? "Client",
       shippingAddress: [shipping.address.line1, shipping.address.line2].filter(Boolean).join(" "),
       shippingZip: shipping.address.postal_code ?? undefined,
+      shippingPhone: session.customer_details?.phone ?? undefined,
       email,
       fromCountryCode: firstProduct.cj_from_country_code,
       logisticName: firstProduct.cj_logistic_name,
