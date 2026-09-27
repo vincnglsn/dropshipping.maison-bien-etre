@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
         unit_amount: product.price_cents,
         product_data: {
           name: product.name,
+          metadata: { slug: product.slug },
           ...(product.image_url ? { images: [product.image_url] } : {}),
         },
       },
