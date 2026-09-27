@@ -16,6 +16,10 @@ create table if not exists products (
 
 create index if not exists products_category_idx on products (category);
 
+-- URL du fournisseur (usage interne, jamais affichée aux clients) : permet de
+-- retrouver rapidement où commander l'article une fois une vente reçue.
+alter table products add column if not exists supplier_url text;
+
 create table if not exists orders (
   id serial primary key,
   stripe_checkout_session_id text not null unique,
@@ -57,18 +61,19 @@ where slug in (
   'guirlande-dentelle-montmirail'
 );
 
-insert into products (slug, name, description, price_cents, image_url, category)
+insert into products (slug, name, description, price_cents, image_url, category, supplier_url)
 values
-  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles en Bois', 'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen. Diffusion silencieuse jusqu''à 6h.', 2990, 'https://images.pexels.com/photos/6693958/pexels-photo-6693958.jpeg', 'bien-etre'),
-  ('miroir-led-sans-fil', 'Miroir LED Sans Fil', 'Miroir lumineux à LED tactile, rechargeable et sans fil, pour une lumière douce et flatteuse partout dans la maison.', 4990, 'https://images.pexels.com/photos/6466223/pexels-photo-6466223.jpeg', 'bien-etre'),
-  ('veilleuse-lune-3d', 'Veilleuse Lune 3D', 'Veilleuse lunaire imprimée en 3D avec télécommande, effets de lumière chaude évoquant le clair de lune pour un sommeil apaisé.', 2490, 'https://images.pexels.com/photos/10524859/pexels-photo-10524859.jpeg', 'bien-etre'),
-  ('plaid-leste-cocooning', 'Plaid Lesté Cocooning', 'Couverture pondérée qui enveloppe le corps d''une pression douce et régulière, pour un relâchement du stress et un meilleur endormissement.', 5990, 'https://images.pexels.com/photos/17219736/pexels-photo-17219736.jpeg', 'bien-etre'),
-  ('coussin-masseur-nuque', 'Coussin Masseur Nuque & Épaules', 'Masseur électrique chauffant à billes rotatives pour soulager les tensions de la nuque et des épaules après une longue journée.', 3990, 'https://images.pexels.com/photos/275768/pexels-photo-275768.jpeg', 'bien-etre'),
-  ('fontaine-interieur-zen', 'Fontaine d''Intérieur Zen', 'Fontaine décorative avec circulation d''eau continue et bruit apaisant, pour une ambiance sereine dans le salon ou le bureau.', 4490, 'https://images.pexels.com/photos/32039197/pexels-photo-32039197.jpeg', 'decoration'),
-  ('guirlande-macrame-murale', 'Guirlande Macramé Murale', 'Suspension murale en macramé tissée à la main, coton naturel, pour une touche bohème et chaleureuse dans n''importe quelle pièce.', 2690, 'https://images.pexels.com/photos/11719332/pexels-photo-11719332.jpeg', 'decoration')
+  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles en Bois', 'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen. Diffusion silencieuse jusqu''à 6h.', 2990, 'https://images.pexels.com/photos/6693958/pexels-photo-6693958.jpeg', 'bien-etre', 'https://www.aliexpress.com/item/1005008077463719.html'),
+  ('miroir-led-sans-fil', 'Miroir LED Sans Fil', 'Miroir lumineux à LED tactile, rechargeable et sans fil, pour une lumière douce et flatteuse partout dans la maison.', 4990, 'https://images.pexels.com/photos/6466223/pexels-photo-6466223.jpeg', 'bien-etre', 'https://www.aliexpress.com/item/1005008595606756.html'),
+  ('veilleuse-lune-3d', 'Veilleuse Lune 3D', 'Veilleuse lunaire imprimée en 3D avec télécommande, effets de lumière chaude évoquant le clair de lune pour un sommeil apaisé.', 2490, 'https://images.pexels.com/photos/10524859/pexels-photo-10524859.jpeg', 'bien-etre', 'https://www.aliexpress.com/item/1005007096720102.html'),
+  ('plaid-leste-cocooning', 'Plaid Lesté Cocooning', 'Couverture pondérée qui enveloppe le corps d''une pression douce et régulière, pour un relâchement du stress et un meilleur endormissement.', 5990, 'https://images.pexels.com/photos/17219736/pexels-photo-17219736.jpeg', 'bien-etre', 'https://he.aliexpress.com/item/1005012671147818.html'),
+  ('coussin-masseur-nuque', 'Coussin Masseur Nuque & Épaules', 'Masseur électrique chauffant à billes rotatives pour soulager les tensions de la nuque et des épaules après une longue journée.', 3990, 'https://images.pexels.com/photos/275768/pexels-photo-275768.jpeg', 'bien-etre', 'https://www.aliexpress.com/item/1005012540602889.html'),
+  ('fontaine-interieur-zen', 'Fontaine d''Intérieur Zen', 'Fontaine décorative avec circulation d''eau continue et bruit apaisant, pour une ambiance sereine dans le salon ou le bureau.', 4490, 'https://images.pexels.com/photos/32039197/pexels-photo-32039197.jpeg', 'decoration', 'https://www.aliexpress.com/item/1005008159886679.html'),
+  ('guirlande-macrame-murale', 'Guirlande Macramé Murale', 'Suspension murale en macramé tissée à la main, coton naturel, pour une touche bohème et chaleureuse dans n''importe quelle pièce.', 2690, 'https://images.pexels.com/photos/11719332/pexels-photo-11719332.jpeg', 'decoration', 'https://www.aliexpress.com/item/1005012242321937.html')
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
   price_cents = excluded.price_cents,
   image_url = excluded.image_url,
-  category = excluded.category;
+  category = excluded.category,
+  supplier_url = excluded.supplier_url;
