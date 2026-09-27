@@ -20,6 +20,14 @@ create index if not exists products_category_idx on products (category);
 -- retrouver rapidement où commander l'article une fois une vente reçue.
 alter table products add column if not exists supplier_url text;
 
+-- Identifiants CJdropshipping (usage interne) : nécessaires pour passer une
+-- commande fournisseur automatiquement via leur API lors d'un paiement.
+alter table products add column if not exists cj_product_id text;
+alter table products add column if not exists cj_variant_id text;
+alter table products add column if not exists cj_sku text;
+alter table products add column if not exists cj_from_country_code text not null default 'CN';
+alter table products add column if not exists cj_logistic_name text not null default 'CJPacket Ordinary';
+
 create table if not exists orders (
   id serial primary key,
   stripe_checkout_session_id text not null unique,
@@ -51,6 +59,24 @@ create table if not exists order_items (
 );
 
 create index if not exists order_items_order_id_idx on order_items (order_id);
+
+-- Suivi des commandes passées automatiquement chez CJdropshipping suite à un
+-- paiement Stripe : permet de savoir quelles commandes clients ont bien été
+-- transmises au fournisseur, et de retrouver le numéro de suivi une fois expédié.
+create table if not exists supplier_orders (
+  id serial primary key,
+  order_id integer not null references orders (id) on delete cascade,
+  provider text not null default 'cjdropshipping',
+  provider_order_id text,
+  status text not null default 'pending',
+  tracking_number text,
+  error_message text,
+  is_sandbox boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists supplier_orders_order_id_idx on supplier_orders (order_id);
 
 -- Catalogue de démonstration initial retiré : remplacé par une sélection de
 -- produits réellement sourçables en dropshipping (voir migration ci-dessous).
