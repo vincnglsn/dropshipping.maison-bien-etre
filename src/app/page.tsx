@@ -58,13 +58,13 @@ export default async function Home() {
               href={`/produits/${product.slug}`}
               className="group flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
             >
-              <div className="flex h-40 items-center justify-center bg-stone-100 text-stone-400 dark:bg-stone-800">
+              <div className="flex h-40 items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 to-stone-200 text-stone-400 dark:from-stone-800 dark:to-stone-900">
                 {product.image_url ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={product.image_url}
                     alt={product.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full scale-125 object-cover"
                   />
                 ) : (
                   <span className="text-xs">Image à venir</span>

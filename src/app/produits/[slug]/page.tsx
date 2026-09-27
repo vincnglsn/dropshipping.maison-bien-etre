@@ -38,13 +38,13 @@ export default async function ProductPage({
       </header>
 
       <main className="mx-auto grid w-full max-w-5xl flex-1 gap-10 px-6 py-12 md:grid-cols-2">
-        <div className="flex h-80 items-center justify-center rounded-xl bg-stone-100 text-stone-400 dark:bg-stone-800">
+        <div className="flex h-80 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-stone-200 text-stone-400 dark:from-stone-800 dark:to-stone-900">
           {product.image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={product.image_url}
               alt={product.name}
-              className="h-full w-full rounded-xl object-cover"
+              className="h-full w-full scale-125 object-cover"
             />
           ) : (
             <span className="text-sm">Image à venir</span>
