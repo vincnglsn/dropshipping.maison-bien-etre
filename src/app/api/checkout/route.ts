@@ -46,7 +46,9 @@ export async function POST(request: NextRequest) {
   }
 
   const origin =
-    process.env.NEXT_PUBLIC_SITE_URL ?? request.headers.get("origin") ?? "http://localhost:3000";
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    request.headers.get("origin") ||
+    "http://localhost:3000";
 
   try {
     const stripe = getStripe();
