@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, formatPrice } from "@/lib/products";
+import { CartHeaderLink } from "@/components/CartHeaderLink";
+import { AddToCartButton } from "@/components/AddToCartButton";
 
 export const revalidate = 60;
 
@@ -26,9 +28,12 @@ export default async function ProductPage({
           >
             Maison Bien-Être
           </Link>
-          <Link href="/" className="text-sm text-stone-600 dark:text-stone-400">
-            ← Retour à la boutique
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-sm text-stone-600 dark:text-stone-400">
+              ← Retour à la boutique
+            </Link>
+            <CartHeaderLink />
+          </div>
         </div>
       </header>
 
@@ -54,14 +59,12 @@ export default async function ProductPage({
             {formatPrice(product.price_cents, product.currency)}
           </p>
           <p className="text-stone-600 dark:text-stone-400">{product.description}</p>
-          <button
-            type="button"
-            disabled
-            title="Le paiement n'est pas encore configuré"
-            className="mt-4 w-full rounded-full bg-stone-900 px-6 py-3 font-medium text-white opacity-60 dark:bg-stone-100 dark:text-stone-900"
-          >
-            Ajouter au panier (bientôt disponible)
-          </button>
+          <AddToCartButton
+            slug={product.slug}
+            name={product.name}
+            priceCents={product.price_cents}
+            currency={product.currency}
+          />
         </div>
       </main>
     </div>

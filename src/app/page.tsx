@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getProducts, formatPrice, type Product } from "@/lib/products";
+import { CartHeaderLink } from "@/components/CartHeaderLink";
 
 export const revalidate = 60;
 
@@ -20,8 +21,9 @@ export default async function Home() {
           <span className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-50">
             Maison Bien-Être
           </span>
-          <nav className="text-sm text-stone-600 dark:text-stone-400">
+          <nav className="flex items-center gap-4 text-sm text-stone-600 dark:text-stone-400">
             <Link href="/">Boutique</Link>
+            <CartHeaderLink />
           </nav>
         </div>
       </header>
