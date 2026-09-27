@@ -118,7 +118,7 @@ values
 
   ('plaid-moelleux-cocooning', 'Plaid Moelleux Cocooning',
    'Plaid en laine composite épaisse et douce, idéal pour se blottir au chaud et se détendre après une longue journée.',
-   3490, 'https://cf.cjdropshipping.com/c51fad5c-1dd1-4096-8e65-d427c5d21e8d.jpg', 'bien-etre',
+   3490, 'https://cf.cjdropshipping.com/102bafe6-82ba-404f-b0fd-7e65c1b9d797.jpg', 'bien-etre',
    'https://cjdropshipping.com/product/1419952937068793856.html',
    '1419952937068793856', '1419952939707011072', 'CJCZ122942801AZ'),
 
