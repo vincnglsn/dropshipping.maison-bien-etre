@@ -21,12 +21,20 @@ create table if not exists orders (
   stripe_checkout_session_id text not null unique,
   stripe_payment_intent_id text,
   status text not null default 'paid',
+  mode text not null default 'test',
   amount_total_cents integer not null,
   currency text not null default 'EUR',
   customer_email text,
   shipping_address jsonb,
   created_at timestamptz not null default now()
 );
+
+-- Ajoute la colonne mode ('test' ou 'live') si la table existait déjà avant cette
+-- migration, et déduit sa valeur des commandes passées à partir de l'id de session Stripe.
+alter table orders add column if not exists mode text not null default 'test';
+update orders set mode = 'live' where stripe_checkout_session_id like 'cs\_live\_%' and mode = 'test';
+
+create index if not exists orders_mode_idx on orders (mode);
 
 create table if not exists order_items (
   id serial primary key,

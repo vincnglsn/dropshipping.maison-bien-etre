@@ -29,13 +29,13 @@ export async function POST(request: NextRequest) {
 
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
-    await recordOrder(stripe, session);
+    await recordOrder(stripe, session, event.livemode ? "live" : "test");
   }
 
   return NextResponse.json({ received: true });
 }
 
-async function recordOrder(stripe: Stripe, session: Stripe.Checkout.Session) {
+async function recordOrder(stripe: Stripe, session: Stripe.Checkout.Session, mode: "test" | "live") {
   const sql = getSql();
 
   // Idempotence : un webhook Stripe peut être renvoyé plusieurs fois pour le
@@ -54,6 +54,7 @@ async function recordOrder(stripe: Stripe, session: Stripe.Checkout.Session) {
       stripe_checkout_session_id,
       stripe_payment_intent_id,
       status,
+      mode,
       amount_total_cents,
       currency,
       customer_email,
@@ -63,6 +64,7 @@ async function recordOrder(stripe: Stripe, session: Stripe.Checkout.Session) {
       ${session.id},
       ${typeof session.payment_intent === "string" ? session.payment_intent : null},
       'paid',
+      ${mode},
       ${session.amount_total ?? 0},
       ${(session.currency ?? "eur").toUpperCase()},
       ${session.customer_details?.email ?? null},
