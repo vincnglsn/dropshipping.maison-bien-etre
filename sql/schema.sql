@@ -48,10 +48,27 @@ create table if not exists order_items (
 
 create index if not exists order_items_order_id_idx on order_items (order_id);
 
+-- Catalogue de démonstration initial retiré : remplacé par une sélection de
+-- produits réellement sourçables en dropshipping (voir migration ci-dessous).
+delete from products
+where slug in (
+  'bougie-lavande-apaisante',
+  'coussin-mediation-lin',
+  'guirlande-dentelle-montmirail'
+);
+
 insert into products (slug, name, description, price_cents, image_url, category)
 values
-  ('bougie-lavande-apaisante', 'Bougie Lavande Apaisante', 'Bougie parfumée à la cire de soja, notes de lavande et bois de santal pour une ambiance relaxante.', 1990, null, 'bien-etre'),
-  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles', 'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen.', 3490, null, 'bien-etre'),
-  ('coussin-mediation-lin', 'Coussin de Méditation en Lin', 'Coussin de méditation rembourré en fibres naturelles, housse en lin lavé.', 4290, null, 'decoration'),
-  ('guirlande-dentelle-montmirail', 'Guirlande Dentelle Montmirail', 'Guirlande décorative en dentelle inspirée du savoir-faire des Dentelles de Montmirail.', 2490, null, 'decoration')
-on conflict (slug) do nothing;
+  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles en Bois', 'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen. Diffusion silencieuse jusqu''à 6h.', 2990, 'https://images.pexels.com/photos/6693958/pexels-photo-6693958.jpeg', 'bien-etre'),
+  ('miroir-led-sans-fil', 'Miroir LED Sans Fil', 'Miroir lumineux à LED tactile, rechargeable et sans fil, pour une lumière douce et flatteuse partout dans la maison.', 4990, 'https://images.pexels.com/photos/6466223/pexels-photo-6466223.jpeg', 'bien-etre'),
+  ('veilleuse-lune-3d', 'Veilleuse Lune 3D', 'Veilleuse lunaire imprimée en 3D avec télécommande, effets de lumière chaude évoquant le clair de lune pour un sommeil apaisé.', 2490, 'https://images.pexels.com/photos/10524859/pexels-photo-10524859.jpeg', 'bien-etre'),
+  ('plaid-leste-cocooning', 'Plaid Lesté Cocooning', 'Couverture pondérée qui enveloppe le corps d''une pression douce et régulière, pour un relâchement du stress et un meilleur endormissement.', 5990, 'https://images.pexels.com/photos/17219736/pexels-photo-17219736.jpeg', 'bien-etre'),
+  ('coussin-masseur-nuque', 'Coussin Masseur Nuque & Épaules', 'Masseur électrique chauffant à billes rotatives pour soulager les tensions de la nuque et des épaules après une longue journée.', 3990, 'https://images.pexels.com/photos/275768/pexels-photo-275768.jpeg', 'bien-etre'),
+  ('fontaine-interieur-zen', 'Fontaine d''Intérieur Zen', 'Fontaine décorative avec circulation d''eau continue et bruit apaisant, pour une ambiance sereine dans le salon ou le bureau.', 4490, 'https://images.pexels.com/photos/32039197/pexels-photo-32039197.jpeg', 'decoration'),
+  ('guirlande-macrame-murale', 'Guirlande Macramé Murale', 'Suspension murale en macramé tissée à la main, coton naturel, pour une touche bohème et chaleureuse dans n''importe quelle pièce.', 2690, 'https://images.pexels.com/photos/11719332/pexels-photo-11719332.jpeg', 'decoration')
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category;
