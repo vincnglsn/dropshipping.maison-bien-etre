@@ -87,19 +87,66 @@ where slug in (
   'guirlande-dentelle-montmirail'
 );
 
-insert into products (slug, name, description, price_cents, image_url, category, supplier_url)
+-- 'fontaine-interieur-zen' et 'plaid-leste-cocooning' n'existent pas chez
+-- CJdropshipping : remplacés par des équivalents réellement disponibles
+-- (voir migration ci-dessous). Le plaid n'est pas réellement lesté chez CJ,
+-- d'où le changement de nom pour ne pas induire en erreur.
+delete from products where slug in ('fontaine-interieur-zen', 'plaid-leste-cocooning');
+
+insert into products (
+  slug, name, description, price_cents, image_url, category, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku
+)
 values
-  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles en Bois', 'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen. Diffusion silencieuse jusqu''à 6h.', 2990, 'https://ae-pic-a1.aliexpress-media.com/kf/Sfbc47663af0e401b930cc640dbfe60d8K.jpg', 'bien-etre', 'https://www.aliexpress.com/item/1005008077463719.html'),
-  ('miroir-led-sans-fil', 'Miroir LED Sans Fil', 'Miroir lumineux à LED tactile, rechargeable et sans fil, pour une lumière douce et flatteuse partout dans la maison.', 4990, 'https://ae-pic-a1.aliexpress-media.com/kf/Sa8bc7f7edfbd4c029505f2b2f7b4f7dcb.jpg', 'bien-etre', 'https://www.aliexpress.com/item/1005008595606756.html'),
-  ('veilleuse-lune-3d', 'Veilleuse Lune 3D', 'Veilleuse lunaire imprimée en 3D avec télécommande, effets de lumière chaude évoquant le clair de lune pour un sommeil apaisé.', 2490, 'https://ae-pic-a1.aliexpress-media.com/kf/Sc81f0c55910c4a40983acc9e34657a40t.jpg', 'bien-etre', 'https://www.aliexpress.com/item/1005007096720102.html'),
-  ('plaid-leste-cocooning', 'Plaid Lesté Cocooning', 'Couverture pondérée qui enveloppe le corps d''une pression douce et régulière, pour un relâchement du stress et un meilleur endormissement.', 5990, 'https://ae-pic-a1.aliexpress-media.com/kf/Sa4db6d2556054cb4a04837dfce05bfa6t.jpg', 'bien-etre', 'https://he.aliexpress.com/item/1005012671147818.html'),
-  ('coussin-masseur-nuque', 'Coussin Masseur Nuque & Épaules', 'Masseur électrique chauffant à billes rotatives (Ekmoey Shiatsu) pour soulager les tensions de la nuque et des épaules après une longue journée. Expédié depuis l''Allemagne.', 3990, 'https://ae-pic-a1.aliexpress-media.com/kf/S81f0dc5d795c4631b9e329807ffedf15s.jpg', 'bien-etre', 'https://www.aliexpress.com/item/1005012036423291.html'),
-  ('fontaine-interieur-zen', 'Fontaine d''Intérieur Zen', 'Fontaine décorative 3 niveaux avec circulation d''eau continue et bruit apaisant, pour une ambiance sereine dans le salon ou le bureau.', 4490, 'https://ae-pic-a1.aliexpress-media.com/kf/S57a91631c417400ba8dec2cadbbbf403z.jpg', 'decoration', 'https://www.aliexpress.com/item/1005008159886679.html'),
-  ('guirlande-macrame-murale', 'Guirlande Macramé Murale', 'Suspension murale en macramé tissée à la main, coton naturel, motif feuille, pour une touche bohème et chaleureuse dans n''importe quelle pièce.', 2690, 'https://ae-pic-a1.aliexpress-media.com/kf/Sad6d11bdd2bc449e9ff3769c15870ad2R.png', 'decoration', 'https://www.aliexpress.com/item/1005012242321937.html')
+  ('diffuseur-huiles-essentielles', 'Diffuseur d''Huiles Essentielles en Bois',
+   'Diffuseur ultrasonique en bois avec éclairage LED doux, idéal pour créer une atmosphère zen. Diffusion silencieuse jusqu''à 6h.',
+   2990, 'https://cf.cjdropshipping.com/5f06a8b4-85b3-440f-89a0-baa0d1fb4754.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1580441280076206080.html',
+   '1580441280076206080', '1580441280097177607', 'CJKD1586240-AU-Black'),
+
+  ('miroir-led-sans-fil', 'Miroir LED Sans Fil',
+   'Miroir lumineux à LED tactile, rechargeable et sans fil, pour une lumière douce et flatteuse partout dans la maison.',
+   4490, 'https://cf.cjdropshipping.com/1617346786721.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1377881281043501056.html',
+   '1377881281043501056', '1377934291807375360', 'CJSN106354101AZ'),
+
+  ('veilleuse-lune-3d', 'Veilleuse Lune 3D Flottante',
+   'Veilleuse lunaire à lévitation magnétique avec télécommande tactile, 3 teintes de lumière évoquant le clair de lune pour un sommeil apaisé.',
+   3490, 'https://cf.cjdropshipping.com/12ae7895-c887-4cf2-9ef1-4849feece65b.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1564850062642130944.html',
+   '1564850062642130944', '1564850062751182848', 'CJJT155338401AZ'),
+
+  ('plaid-moelleux-cocooning', 'Plaid Moelleux Cocooning',
+   'Plaid en laine composite épaisse et douce, idéal pour se blottir au chaud et se détendre après une longue journée.',
+   3490, 'https://cf.cjdropshipping.com/c51fad5c-1dd1-4096-8e65-d427c5d21e8d.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1419952937068793856.html',
+   '1419952937068793856', '1419952939707011072', 'CJCZ122942801AZ'),
+
+  ('coussin-masseur-nuque', 'Coussin Masseur Nuque & Épaules',
+   'Masseur électrique chauffant multifonction pour soulager les tensions de la nuque, des épaules et du dos, à la maison ou en voiture.',
+   2990, 'https://cj-product-center.oss-accelerate.aliyuncs.com/supplier/1688/0e502a27-dfa9-4e48-b02c-9d1725cd6d3e.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/2087437804783431682.html',
+   '2087437804783431682', '2087437804863123458', 'CJAM305523501AZ'),
+
+  ('bruleur-encens-zen-ceramique', 'Brûle-Encens Zen en Céramique',
+   'Brûle-encens en céramique façon fleur de lotus, pour une ambiance zen et apaisante dans le salon ou la chambre.',
+   2490, 'https://oss-cf.cjdropshipping.com/product/2025/01/17/11/3c6a8b03-fb9d-4620-b9a1-8cd81440122b.jpg', 'decoration',
+   'https://cjdropshipping.com/product/2501171109581600200.html',
+   '2501171109581600200', '2501171109581600400', 'CJYD227361302BY'),
+
+  ('guirlande-macrame-murale', 'Guirlande Macramé Murale',
+   'Suspension murale en macramé tissée à la main, pour une touche bohème et chaleureuse dans n''importe quelle pièce.',
+   2690, 'https://cf.cjdropshipping.com/20200302/1029578070338.jpg', 'decoration',
+   'https://cjdropshipping.com/product/B7B0B318-64DA-4C52-93A9-9EEF006CA56C.html',
+   'B7B0B318-64DA-4C52-93A9-9EEF006CA56C', 'A3330646-0E19-4717-A165-37E059D9A4FB', 'CJJJYSSZ00116-Khaki')
+
 on conflict (slug) do update set
   name = excluded.name,
   description = excluded.description,
   price_cents = excluded.price_cents,
   image_url = excluded.image_url,
   category = excluded.category,
-  supplier_url = excluded.supplier_url;
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku;
