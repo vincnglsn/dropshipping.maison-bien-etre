@@ -1,0 +1,69 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getProductBySlug, formatPrice } from "@/lib/products";
+
+export const revalidate = 60;
+
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug).catch(() => null);
+
+  if (!product) {
+    notFound();
+  }
+
+  return (
+    <div className="flex flex-1 flex-col bg-stone-50 dark:bg-stone-950">
+      <header className="border-b border-stone-200 dark:border-stone-800">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
+          <Link
+            href="/"
+            className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-50"
+          >
+            Maison Bien-Être
+          </Link>
+          <Link href="/" className="text-sm text-stone-600 dark:text-stone-400">
+            ← Retour à la boutique
+          </Link>
+        </div>
+      </header>
+
+      <main className="mx-auto grid w-full max-w-5xl flex-1 gap-10 px-6 py-12 md:grid-cols-2">
+        <div className="flex h-80 items-center justify-center rounded-xl bg-stone-100 text-stone-400 dark:bg-stone-800">
+          {product.image_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={product.image_url}
+              alt={product.name}
+              className="h-full w-full rounded-xl object-cover"
+            />
+          ) : (
+            <span className="text-sm">Image à venir</span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <h1 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
+            {product.name}
+          </h1>
+          <p className="text-lg font-semibold text-stone-900 dark:text-stone-50">
+            {formatPrice(product.price_cents, product.currency)}
+          </p>
+          <p className="text-stone-600 dark:text-stone-400">{product.description}</p>
+          <button
+            type="button"
+            disabled
+            title="Le paiement n'est pas encore configuré"
+            className="mt-4 w-full rounded-full bg-stone-900 px-6 py-3 font-medium text-white opacity-60 dark:bg-stone-100 dark:text-stone-900"
+          >
+            Ajouter au panier (bientôt disponible)
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
