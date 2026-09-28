@@ -38,6 +38,11 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     type: "website",
   },
+  // Revendication du site sur Pinterest (What else by Vinc), pour
+  // l'attribution des épingles créées depuis ce domaine.
+  other: {
+    "p:domain_verify": "e6daefef67e7e4c96fcddaf798cf5540",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
