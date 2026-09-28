@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getProducts, formatPrice, type Product } from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const revalidate = 60;
 
@@ -86,9 +87,7 @@ export default async function Home() {
         </div>
       </main>
 
-      <footer className="border-t border-stone-200 py-6 text-center text-xs text-stone-500 dark:border-stone-800">
-        © {new Date().getFullYear()} Maison Bien-Être
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

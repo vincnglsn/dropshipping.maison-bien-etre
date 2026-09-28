@@ -13,9 +13,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://home-wellness.whatelsebyvinc.com";
+
 export const metadata: Metadata = {
-  title: "Maison Bien-Être",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Maison Bien-Être",
+    template: "%s",
+  },
   description: "Objets de bien-être et de décoration pour un intérieur serein.",
+  openGraph: {
+    title: "Maison Bien-Être",
+    description: "Objets de bien-être et de décoration pour un intérieur serein.",
+    url: siteUrl,
+    siteName: "Maison Bien-Être",
+    locale: "fr_FR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

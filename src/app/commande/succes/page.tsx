@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useCart } from "@/lib/cart-context";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function OrderSuccessPage() {
   const { clear } = useCart();
@@ -28,6 +29,9 @@ export default function OrderSuccessPage() {
       >
         Retour à la boutique
       </Link>
+      <div className="mt-auto w-full">
+        <SiteFooter />
+      </div>
     </div>
   );
 }

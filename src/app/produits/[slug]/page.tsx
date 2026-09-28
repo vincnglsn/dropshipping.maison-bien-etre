@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getProductBySlug, formatPrice } from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { AddToCartButton } from "@/components/AddToCartButton";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const revalidate = 60;
 
@@ -67,6 +68,7 @@ export default async function ProductPage({
           />
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

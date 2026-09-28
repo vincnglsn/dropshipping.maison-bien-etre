@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCart } from "@/lib/cart-context";
 import { formatPrice } from "@/lib/products";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function CartPage() {
   const { items, removeItem, setQuantity, totalCents } = useCart();
@@ -121,6 +122,7 @@ export default function CartPage() {
           </div>
         )}
       </main>
+      <SiteFooter />
     </div>
   );
 }
