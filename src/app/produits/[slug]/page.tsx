@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import {
   getProductBySlug,
+  getRelatedProducts,
   formatPrice,
   categoryLabel,
   subcategoryLabel,
@@ -13,6 +15,7 @@ import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
 import { JsonLd } from "@/components/JsonLd";
+import { ProductGrid } from "@/components/ProductGrid";
 
 export const revalidate = 60;
 
@@ -57,6 +60,8 @@ export default async function ProductPage({
   if (!product) {
     notFound();
   }
+
+  const relatedProducts = await getRelatedProducts(product).catch(() => []);
 
   const productUrl = `${SITE_URL}/produits/${product.slug}`;
 
@@ -128,54 +133,73 @@ export default async function ProductPage({
         </div>
       </header>
 
-      <main className="mx-auto grid w-full max-w-5xl flex-1 gap-10 px-6 py-12 md:grid-cols-2">
-        <div className="flex h-80 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-stone-200 text-stone-400 dark:from-stone-800 dark:to-stone-900">
-          {product.image_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={product.image_url}
-              alt={`${product.name} — ${categoryLabel(product.category)}`}
-              className="h-full w-full scale-125 object-cover"
+      <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
+        <div className="grid gap-10 md:grid-cols-2">
+          <div className="relative flex h-80 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-amber-50 to-stone-200 text-stone-400 dark:from-stone-800 dark:to-stone-900">
+            {product.image_url ? (
+              <Image
+                src={product.image_url}
+                alt={`${product.name} — ${categoryLabel(product.category)}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                className={`scale-125 object-cover ${!product.in_stock ? "opacity-50 grayscale" : ""}`}
+              />
+            ) : (
+              <span className="text-sm">Image à venir</span>
+            )}
+            {!product.in_stock && (
+              <span className="absolute left-3 top-3 rounded-full bg-stone-900/90 px-3 py-1 text-xs font-medium text-white">
+                Rupture de stock
+              </span>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <p className="text-sm text-stone-500">
+              <Link href={`/categorie/${product.category}`} className="hover:underline">
+                {categoryLabel(product.category)}
+              </Link>
+              {product.subcategory && (
+                <>
+                  {" "}
+                  ·{" "}
+                  <Link
+                    href={`/categorie/${product.category}/${product.subcategory}`}
+                    className="hover:underline"
+                  >
+                    {subcategoryLabel(product.subcategory)}
+                  </Link>
+                </>
+              )}
+            </p>
+            <h1 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
+              {product.name}
+            </h1>
+            <p className="text-lg font-semibold text-stone-900 dark:text-stone-50">
+              {formatPrice(product.price_cents, product.currency)}
+            </p>
+            <p className="whitespace-pre-line text-stone-600 dark:text-stone-400">
+              {product.description}
+            </p>
+            <AddToCartButton
+              slug={product.slug}
+              name={product.name}
+              priceCents={product.price_cents}
+              currency={product.currency}
+              inStock={product.in_stock}
             />
-          ) : (
-            <span className="text-sm">Image à venir</span>
-          )}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          <p className="text-sm text-stone-500">
-            <Link href={`/categorie/${product.category}`} className="hover:underline">
-              {categoryLabel(product.category)}
-            </Link>
-            {product.subcategory && (
-              <>
-                {" "}
-                ·{" "}
-                <Link
-                  href={`/categorie/${product.category}/${product.subcategory}`}
-                  className="hover:underline"
-                >
-                  {subcategoryLabel(product.subcategory)}
-                </Link>
-              </>
-            )}
-          </p>
-          <h1 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
-            {product.name}
-          </h1>
-          <p className="text-lg font-semibold text-stone-900 dark:text-stone-50">
-            {formatPrice(product.price_cents, product.currency)}
-          </p>
-          <p className="whitespace-pre-line text-stone-600 dark:text-stone-400">
-            {product.description}
-          </p>
-          <AddToCartButton
-            slug={product.slug}
-            name={product.name}
-            priceCents={product.price_cents}
-            currency={product.currency}
-          />
-        </div>
+        {relatedProducts.length > 0 && (
+          <section className="mt-16 border-t border-stone-200 pt-12 dark:border-stone-800">
+            <h2 className="mb-4 text-lg font-serif font-semibold text-stone-900 dark:text-stone-50">
+              Vous aimerez peut-être aussi
+            </h2>
+            <ProductGrid products={relatedProducts} />
+          </section>
+        )}
       </main>
       <SiteFooter />
     </div>

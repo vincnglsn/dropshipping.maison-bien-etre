@@ -556,3 +556,9 @@ Ce que vous obtenez :
 
 Un remplacement de quelques minutes qui se ressent dès la première douche, sur le confort comme sur la facture d'eau.$$
 where slug = 'pommeau-douche-econome';
+
+-- La photo initiale des chaussettes de compression comportait un filigrane
+-- "X2" superposé (image marketing multi-lots) : remplacée par une photo du
+-- même modèle noir sans filigrane.
+update products set image_url = 'https://cf.cjdropshipping.com/20180925/2340941028846.jpg'
+where slug = 'chaussettes-compression';

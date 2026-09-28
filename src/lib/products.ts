@@ -58,8 +58,7 @@ export async function getProducts(): Promise<Product[]> {
   return (await sql`
     select id, slug, name, description, price_cents, currency, image_url, category, subcategory, in_stock
     from products
-    where in_stock = true
-    order by category, subcategory nulls last, created_at desc
+    order by in_stock desc, category, subcategory nulls last, created_at desc
   `) as unknown as Product[];
 }
 
@@ -79,8 +78,8 @@ export async function getProductsByCategory(category: string): Promise<Product[]
   return (await sql`
     select id, slug, name, description, price_cents, currency, image_url, category, subcategory, in_stock
     from products
-    where in_stock = true and category = ${category}
-    order by subcategory nulls last, created_at desc
+    where category = ${category}
+    order by in_stock desc, subcategory nulls last, created_at desc
   `) as unknown as Product[];
 }
 
@@ -92,9 +91,26 @@ export async function getProductsBySubcategory(
   return (await sql`
     select id, slug, name, description, price_cents, currency, image_url, category, subcategory, in_stock
     from products
-    where in_stock = true and category = ${category} and subcategory = ${subcategory}
-    order by created_at desc
+    where category = ${category} and subcategory = ${subcategory}
+    order by in_stock desc, created_at desc
   `) as unknown as Product[];
+}
+
+// Suggestions affichées sur la fiche produit : d'abord la même
+// sous-catégorie, puis la même catégorie si besoin de compléter, en
+// excluant toujours le produit courant et les ruptures de stock.
+export async function getRelatedProducts(product: Product, limit = 4): Promise<Product[]> {
+  const sql = getSql();
+  const rows = (await sql`
+    select id, slug, name, description, price_cents, currency, image_url, category, subcategory, in_stock
+    from products
+    where slug != ${product.slug} and in_stock = true and category = ${product.category}
+    order by
+      case when subcategory is not distinct from ${product.subcategory} then 0 else 1 end,
+      created_at desc
+    limit ${limit}
+  `) as unknown as Product[];
+  return rows;
 }
 
 export type CategoryTree = {

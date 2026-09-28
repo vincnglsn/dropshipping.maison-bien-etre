@@ -8,14 +8,28 @@ export function AddToCartButton({
   name,
   priceCents,
   currency,
+  inStock = true,
 }: {
   slug: string;
   name: string;
   priceCents: number;
   currency: string;
+  inStock?: boolean;
 }) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
+
+  if (!inStock) {
+    return (
+      <button
+        type="button"
+        disabled
+        className="mt-4 w-full cursor-not-allowed rounded-full bg-stone-300 px-6 py-3 font-medium text-stone-500 dark:bg-stone-800 dark:text-stone-500"
+      >
+        Rupture de stock
+      </button>
+    );
+  }
 
   return (
     <button

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { CategoryTree, Product } from "@/lib/products";
 
 export function CategoryCards({
@@ -26,11 +27,12 @@ export function CategoryCards({
             className="group relative flex h-48 items-end overflow-hidden rounded-2xl border border-stone-200 bg-stone-200 dark:border-stone-800 dark:bg-stone-800"
           >
             {image && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={image}
                 alt=""
-                className="absolute inset-0 h-full w-full scale-110 object-cover transition duration-300 group-hover:scale-125"
+                fill
+                sizes="(max-width: 640px) 100vw, 50vw"
+                className="scale-110 object-cover transition duration-300 group-hover:scale-125"
               />
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
