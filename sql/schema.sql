@@ -16,6 +16,11 @@ create table if not exists products (
 
 create index if not exists products_category_idx on products (category);
 
+-- Sous-catégorie (usage affichage/navigation uniquement) : permet de
+-- regrouper les produits par thème à l'intérieur d'une catégorie.
+alter table products add column if not exists subcategory text;
+create index if not exists products_subcategory_idx on products (subcategory);
+
 -- URL du fournisseur (usage interne, jamais affichée aux clients) : permet de
 -- retrouver rapidement où commander l'article une fois une vente reçue.
 alter table products add column if not exists supplier_url text;
@@ -273,3 +278,23 @@ on conflict (slug) do update set
   cj_product_id = excluded.cj_product_id,
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku;
+
+-- Classement des produits en sous-catégories (2026-09-28) pour permettre une
+-- navigation par thème sur le site.
+update products set subcategory = 'massage-detente'
+where slug in ('coussin-masseur-nuque', 'masseur-corps-electrique', 'masseur-facial-led', 'appareil-traction-cervicale');
+
+update products set subcategory = 'sommeil-repos'
+where slug in ('veilleuse-lune-3d', 'plaid-moelleux-cocooning', 'taie-oreiller-satin');
+
+update products set subcategory = 'sport-posture'
+where slug in ('correcteur-posture-intelligent', 'hamac-yoga-anti-gravite', 'chaussettes-compression');
+
+update products set subcategory = 'soin-rituel'
+where slug in ('diffuseur-huiles-essentielles', 'pommeau-douche-econome', 'miroir-led-sans-fil');
+
+update products set subcategory = 'murs-textiles'
+where slug in ('guirlande-macrame-murale', 'tenture-murale-foret-etoilee');
+
+update products set subcategory = 'objets-zen'
+where slug in ('humidificateur-vase-decoratif', 'pyramide-cristal-oeil-de-tigre', 'bruleur-encens-zen-ceramique');

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, formatPrice } from "@/lib/products";
+import { getProductBySlug, formatPrice, categoryLabel, subcategoryLabel } from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -53,6 +53,23 @@ export default async function ProductPage({
         </div>
 
         <div className="flex flex-col gap-4">
+          <p className="text-sm text-stone-500">
+            <Link href={`/categorie/${product.category}`} className="hover:underline">
+              {categoryLabel(product.category)}
+            </Link>
+            {product.subcategory && (
+              <>
+                {" "}
+                ·{" "}
+                <Link
+                  href={`/categorie/${product.category}/${product.subcategory}`}
+                  className="hover:underline"
+                >
+                  {subcategoryLabel(product.subcategory)}
+                </Link>
+              </>
+            )}
+          </p>
           <h1 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
             {product.name}
           </h1>

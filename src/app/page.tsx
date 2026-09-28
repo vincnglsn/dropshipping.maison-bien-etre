@@ -1,16 +1,19 @@
 import Link from "next/link";
-import { getProducts, formatPrice, type Product } from "@/lib/products";
+import { getCategoryTree, getProducts, type CategoryTree, type Product } from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { SiteFooter } from "@/components/SiteFooter";
+import { CategoryNav } from "@/components/CategoryNav";
+import { GroupedProductGrid } from "@/components/ProductGrid";
 
 export const revalidate = 60;
 
 export default async function Home() {
   let products: Product[] = [];
+  let tree: CategoryTree[] = [];
   let dbError = false;
 
   try {
-    products = await getProducts();
+    [products, tree] = await Promise.all([getProducts(), getCategoryTree()]);
   } catch {
     dbError = true;
   }
@@ -48,43 +51,17 @@ export default async function Home() {
           </p>
         )}
 
-        {!dbError && products.length === 0 && (
-          <p className="text-stone-500">Aucun produit disponible pour le moment.</p>
-        )}
+        {!dbError && (
+          <>
+            <CategoryNav tree={tree} />
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/produits/${product.slug}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-stone-200 bg-white transition hover:shadow-md dark:border-stone-800 dark:bg-stone-900"
-            >
-              <div className="flex h-40 items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 to-stone-200 text-stone-400 dark:from-stone-800 dark:to-stone-900">
-                {product.image_url ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="h-full w-full scale-125 object-cover"
-                  />
-                ) : (
-                  <span className="text-xs">Image à venir</span>
-                )}
-              </div>
-              <div className="flex flex-1 flex-col gap-1 p-4">
-                <h2 className="font-medium text-stone-900 group-hover:underline dark:text-stone-50">
-                  {product.name}
-                </h2>
-                <p className="text-sm text-stone-600 dark:text-stone-400 line-clamp-2">
-                  {product.description}
-                </p>
-                <span className="mt-2 font-semibold text-stone-900 dark:text-stone-50">
-                  {formatPrice(product.price_cents, product.currency)}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
+            {products.length === 0 ? (
+              <p className="text-stone-500">Aucun produit disponible pour le moment.</p>
+            ) : (
+              <GroupedProductGrid products={products} />
+            )}
+          </>
+        )}
 
         <section className="mt-16 grid grid-cols-1 gap-8 border-t border-stone-200 pt-12 text-center sm:grid-cols-3 dark:border-stone-800">
           <div>

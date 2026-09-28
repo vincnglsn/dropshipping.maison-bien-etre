@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getProducts } from "@/lib/products";
+import { getCategoryTree, getProducts } from "@/lib/products";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || "https://home-wellness.whatelsebyvinc.com";
@@ -8,6 +8,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "",
     "/panier",
     "/contact",
+    "/a-propos",
+    "/suivi-commande",
     "/mentions-legales",
     "/cgv",
     "/confidentialite",
@@ -15,16 +17,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((path) => ({ url: `${base}${path}`, lastModified: new Date() }));
 
   let productRoutes: MetadataRoute.Sitemap = [];
+  let categoryRoutes: MetadataRoute.Sitemap = [];
   try {
-    const products = await getProducts();
+    const [products, tree] = await Promise.all([getProducts(), getCategoryTree()]);
     productRoutes = products.map((p) => ({
       url: `${base}/produits/${p.slug}`,
       lastModified: new Date(),
     }));
+    categoryRoutes = tree.flatMap((entry) => [
+      { url: `${base}/categorie/${entry.category}`, lastModified: new Date() },
+      ...entry.subcategories.map((sub) => ({
+        url: `${base}/categorie/${entry.category}/${sub.subcategory}`,
+        lastModified: new Date(),
+      })),
+    ]);
   } catch {
     // Base de données indisponible au moment de la génération : on se
     // contente des routes statiques plutôt que de faire échouer le build.
   }
 
-  return [...staticRoutes, ...productRoutes];
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
 }
