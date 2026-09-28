@@ -236,3 +236,40 @@ on conflict (slug) do update set
   cj_product_id = excluded.cj_product_id,
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku;
+
+-- Quatrième vague de produits (2026-09-28, suite) : mêmes critères
+-- (CJdropshipping listV2, productFlag=0 "trending products", niche
+-- bien-être/décoration).
+insert into products (
+  slug, name, description, price_cents, image_url, category, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku
+)
+values
+  ('taie-oreiller-satin', 'Taie d''Oreiller en Satin',
+   'Taie d''oreiller en satin doux façon soie, format standard 50x75cm, pour limiter les frottements sur la peau et les cheveux pendant le sommeil.',
+   3490, 'https://cf.cjdropshipping.com/20200307/2030847358336.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/F25DF9B2-5E6B-42C9-85FD-B34D55E39822.html',
+   'F25DF9B2-5E6B-42C9-85FD-B34D55E39822', '5F0B29EB-74A1-4E05-B9C1-BF523D4DEF60', 'CJJJJFZT00222-Champagne-75X50cm-1pc'),
+
+  ('pyramide-cristal-oeil-de-tigre', 'Pyramide Cristal Œil-de-Tigre',
+   'Pyramide en pierre naturelle œil-de-tigre, objet de décoration et de méditation pour une touche zen sur un bureau ou une étagère.',
+   2490, 'https://cf.cjdropshipping.com/1622250612875.jpg', 'decoration',
+   'https://cjdropshipping.com/product/1363759538372743168.html',
+   '1363759538372743168', '1398452539132874752', 'CJJT101832603CX'),
+
+  ('pommeau-douche-econome', 'Pommeau de Douche Économe 360°',
+   'Pommeau de douche à jet haute pression avec petite turbine, réduit la consommation d''eau tout en gardant un débit confortable.',
+   1990, 'https://cf.cjdropshipping.com/7fed3426-081a-41ac-9c73-0e1880cfafd4.png', 'bien-etre',
+   'https://cjdropshipping.com/product/1438099563213885440.html',
+   '1438099563213885440', '1503280041168482304', 'CJYS128839899UF')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku;
