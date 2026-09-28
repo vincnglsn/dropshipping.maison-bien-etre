@@ -586,3 +586,87 @@ delete from products where slug in ('hamac-yoga-anti-gravite', 'masseur-corps-el
 
 update products set price_cents = 3290 where slug = 'appareil-traction-cervicale';
 update products set price_cents = 4490 where slug = 'veilleuse-lune-3d';
+
+-- Nettoyage des marges faibles (2026-09-28, suite) : après recalcul avec le
+-- transporteur réellement configuré (et non plus le moins cher toutes
+-- options confondues), 4 produits tombaient sous 20% de marge nette
+-- (chaussettes-compression 13%, diffuseur-huiles-essentielles 13%,
+-- plaid-moelleux-cocooning 7%, guirlande-macrame-murale 3%). Retirés et
+-- remplacés par 4 produits de mêmes sous-catégories, sourcés et vérifiés
+-- (prix de gros + livraison réelle via freightCalculate) pour une marge
+-- nette de 26 à 41%.
+delete from products where slug in ('chaussettes-compression', 'diffuseur-huiles-essentielles', 'plaid-moelleux-cocooning', 'guirlande-macrame-murale');
+
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('genouillere-sport', 'Genouillères de Sport (paire)',
+   $$Une paire de genouillères de compression, pour soutenir l'articulation pendant l'effort et accélérer la récupération après.
+
+Ce que vous obtenez :
+• Tissu élastique compressif qui stabilise le genou sans bloquer le mouvement
+• Vendues par paire, pour un maintien symétrique des deux jambes
+• Coutures plates qui évitent les frottements pendant l'effort
+• Discrètes sous un legging ou un pantalon de sport
+
+Utiles en course à pied, en musculation ou simplement pour soulager un genou fragile au quotidien.$$,
+   1990, 'https://cf.cjdropshipping.com/15272064/1726841262069.png', 'bien-etre', 'sport-posture',
+   'https://cjdropshipping.com/product/CA61300D-29F8-4513-BA79-45F511A64423.html',
+   'CA61300D-29F8-4513-BA79-45F511A64423', 'E1D8823E-8304-4F84-B060-6E571EA6B949', 'CJNSFJST00018-Black Blue apair-M', 'CJPacket Ordinary I'),
+
+  ('couverture-rafraichissante', 'Couverture Rafraîchissante Été',
+   $$Une couverture légère en tissu rafraîchissant, pensée pour les nuits d'été où la couette classique est trop chaude.
+
+Ce que vous obtenez :
+• Tissu compressible et respirant qui évacue la chaleur corporelle
+• Format généreux (1,5 x 2m), adapté à un lit une ou deux places
+• Se range facilement dans son sac de rangement une fois pliée
+• Alternative légère à la couette pour les nuits chaudes
+
+Idéale posée sur le canapé en journée ou sur le lit les nuits où il fait trop chaud pour dormir sous la couette habituelle.$$,
+   2490, 'https://oss-cf.cjdropshipping.com/product/2025/04/18/13/9c74ed67-2fbd-436c-8785-2e61921d3df2.jpg', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/01E333BC-92ED-440E-A783-E10F319B3273.html',
+   '01E333BC-92ED-440E-A783-E10F319B3273', '2601200505431602800', 'CJJJJFCS00602-Army Green-1.5x2m', 'CJPacket Ordinary I'),
+
+  ('tenture-murale-loup-montagne', 'Tenture Murale Loup & Montagne',
+   $$Une tenture murale en tissu léger représentant un loup contemplant une chaîne de montagnes, pour une déco nature et graphique.
+
+Ce que vous obtenez :
+• Format généreux (150x230cm), pensé pour couvrir toute la largeur d'une tête de lit ou d'un canapé
+• Tissu léger et souple, facile à plier et à transporter en cas de déménagement
+• Impression aux couleurs profondes qui restent nettes après lavage
+• Se fixe simplement avec des punaises ou du ruban adhésif double-face (non fourni)
+
+Une solution déco rapide et réversible, parfaite pour une chambre, un salon ou un espace de travail au look nature.$$,
+   2490, 'https://cf.cjdropshipping.com/20190612/503572552711.jpg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/0E9D82EF-DFB8-43EE-900F-3C0D05DF4524.html',
+   '0E9D82EF-DFB8-43EE-900F-3C0D05DF4524', 'E6549204-59B9-44F9-AAEF-E4D1CDBD71B5', 'CJJJJFCL00151-150x230cm thick', 'CJPacket Ordinary I'),
+
+  ('rouleau-microneedling', 'Rouleau de Microneedling',
+   $$Un rouleau de microneedling à picots fins, utilisé en soin de la peau pour stimuler le renouvellement cutané avant l'application d'un sérum.
+
+Ce que vous obtenez :
+• Picots en titane de 0,5mm, adaptés à un usage régulier à la maison
+• Manche ergonomique pour un passage précis sur le visage
+• Stimule la pénétration des soins appliqués juste après
+• Format compact, facile à ranger dans une trousse de toilette
+
+À intégrer une à deux fois par semaine dans une routine de soin, avant sérum ou huile visage, pour une peau visiblement plus réceptive.$$,
+   1490, 'https://cf.cjdropshipping.com/1620177543531.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/1389753362945282048.html',
+   '1389753362945282048', '1389753364300042240', 'CJPF111268905EV', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
