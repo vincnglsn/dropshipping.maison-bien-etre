@@ -671,6 +671,55 @@ on conflict (slug) do update set
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
 
+-- Deux produits supplémentaires (2026-09-28, encore) : mêmes critères
+-- (CJdropshipping trending, prix de gros + livraison réelle vérifiés via
+-- freightCalculate, marge nette ~28%).
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('vase-nordique-ceramique', 'Vase Nordique Céramique (forme anneau)',
+   $$Un vase en céramique mate au design épuré façon anneau, inspiré des lignes nordiques minimalistes.
+
+Ce que vous obtenez :
+• Céramique mate au toucher doux, sans effet brillant ni froid
+• Forme anneau originale qui se remarque même sans fleurs à l'intérieur
+• Format généreux (23cm), suffisamment imposant pour s'imposer sur un meuble
+• Se marie avec des branches séchées, des fleurs fraîches ou seul comme sculpture
+
+Un objet déco qui fonctionne aussi bien vide, posé comme une pièce sculpturale, que rempli de vos compositions florales du moment.$$,
+   3490, 'https://cf.cjdropshipping.com/20200710/690168037928.png', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/5DA8C827-8C4C-45C0-BCE8-90533B59BA98.html',
+   '5DA8C827-8C4C-45C0-BCE8-90533B59BA98', '20894880-FD90-4416-B6BC-3E84A144F4AD', 'CJJJJTCC00781-E', 'CJPacket Eub'),
+
+  ('lampe-rose-veilleuse', 'Lampe Rose Veilleuse LED',
+   $$Une veilleuse en forme de bonsaï fleuri, aux petites fleurs lumineuses LED, pour une ambiance douce et romantique dans une chambre.
+
+Ce que vous obtenez :
+• Guirlande de fleurs LED sur structure façon bonsaï, effet waouh garanti
+• Fonctionne sur pile ou USB selon usage, facile à poser n'importe où
+• Lumière douce et non éblouissante, adaptée à un usage nocturne
+• Un objet à la fois veilleuse et déco, qui reste beau allumé comme éteint
+
+À poser sur une table de chevet, une étagère ou un bureau, pour une touche féerique qui adoucit une pièce le soir venu.$$,
+   2990, 'https://cf.cjdropshipping.com/20200707/1508677203472.jpg', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/533362BD-F79A-4FDF-9E7F-EB3DC524A3E6.html',
+   '533362BD-F79A-4FDF-9E7F-EB3DC524A3E6', '3911EF92-529A-4106-8D7E-F783C4E909E8', 'CJJJJTJT13241-Blue black', 'CJPacket Sensitive Over Length')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
+
 -- Cohérence saisonnière (2026-09-28) : la couverture rafraîchissante d'été
 -- n'avait pas de sens à vendre en plein automne. Retirée et remplacée par
 -- trois produits d'automne, chacun vérifié (prix de gros + livraison réelle
