@@ -3,6 +3,7 @@ import { getCategoryTree, getProducts, type CategoryTree, type Product } from "@
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CategoryNav } from "@/components/CategoryNav";
+import { CategoryCards } from "@/components/CategoryCards";
 import { GroupedProductGrid } from "@/components/ProductGrid";
 
 export const revalidate = 60;
@@ -53,6 +54,8 @@ export default async function Home() {
 
         {!dbError && (
           <>
+            <CategoryCards tree={tree} products={products} />
+
             <CategoryNav tree={tree} />
 
             {products.length === 0 ? (
