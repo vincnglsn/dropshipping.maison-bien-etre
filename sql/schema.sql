@@ -562,3 +562,16 @@ where slug = 'pommeau-douche-econome';
 -- même modèle noir sans filigrane.
 update products set image_url = 'https://cf.cjdropshipping.com/20180925/2340941028846.jpg'
 where slug = 'chaussettes-compression';
+
+-- Correction d'un bug de fond (2026-09-28) : le nom de transporteur par
+-- défaut 'CJPacket Ordinary' n'existe pas parmi les options réelles
+-- proposées par l'API freightCalculate de CJ pour les produits classés
+-- "sensibles" (électronique/batterie) — la commande fournisseur automatique
+-- aurait probablement échoué pour ces 7 produits. Remplacé par une option
+-- valide et économique confirmée via l'API.
+update products set cj_logistic_name = 'CJPacket Sensitive Over Length'
+where slug = 'appareil-traction-cervicale';
+update products set cj_logistic_name = 'CJPacket Euro Sensitive F'
+where slug in ('correcteur-posture-intelligent', 'coussin-masseur-nuque', 'masseur-facial-led', 'miroir-led-sans-fil', 'veilleuse-lune-3d');
+update products set cj_logistic_name = 'YunExpress Sensitive'
+where slug = 'masseur-corps-electrique';
