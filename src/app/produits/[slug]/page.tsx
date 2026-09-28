@@ -16,6 +16,7 @@ import { AddToCartButton } from "@/components/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductGrid } from "@/components/ProductGrid";
+import { SiteLogo } from "@/components/SiteLogo";
 
 export const revalidate = 60;
 
@@ -118,12 +119,7 @@ export default async function ProductPage({
       <JsonLd data={productJsonLd} />
       <header className="border-b border-stone-200 dark:border-stone-800">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-          <Link
-            href="/"
-            className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-50"
-          >
-            Maison Bien-Être
-          </Link>
+          <SiteLogo />
           <div className="flex items-center gap-4">
             <Link href="/" className="text-sm text-stone-600 dark:text-stone-400">
               ← Retour à la boutique

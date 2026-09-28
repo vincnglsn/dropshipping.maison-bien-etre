@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { CategoryNav } from "@/components/CategoryNav";
 import { CategoryCards } from "@/components/CategoryCards";
 import { GroupedProductGrid } from "@/components/ProductGrid";
+import { SiteLogo } from "@/components/SiteLogo";
 
 export const revalidate = 60;
 
@@ -23,9 +24,7 @@ export default async function Home() {
     <div className="flex flex-1 flex-col bg-stone-50 dark:bg-stone-950">
       <header className="border-b border-stone-200 dark:border-stone-800">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-          <span className="font-serif text-xl font-semibold text-stone-900 dark:text-stone-50">
-            Maison Bien-Être
-          </span>
+          <SiteLogo />
           <nav className="flex items-center gap-4 text-sm text-stone-600 dark:text-stone-400">
             <Link href="/">Boutique</Link>
             <CartHeaderLink />
