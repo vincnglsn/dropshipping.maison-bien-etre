@@ -1,11 +1,50 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductBySlug, formatPrice, categoryLabel, subcategoryLabel } from "@/lib/products";
+import type { Metadata } from "next";
+import {
+  getProductBySlug,
+  formatPrice,
+  categoryLabel,
+  subcategoryLabel,
+  descriptionExcerpt,
+  SITE_URL,
+} from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { SiteFooter } from "@/components/SiteFooter";
+import { JsonLd } from "@/components/JsonLd";
 
 export const revalidate = 60;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug).catch(() => null);
+
+  if (!product) {
+    return { title: "Produit introuvable — Maison Bien-Être" };
+  }
+
+  const title = `${product.name} — Maison Bien-Être`;
+  const description = descriptionExcerpt(product.description);
+  const url = `${SITE_URL}/produits/${product.slug}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      ...(product.image_url ? { images: [{ url: product.image_url }] } : {}),
+    },
+  };
+}
 
 export default async function ProductPage({
   params,
@@ -19,8 +58,59 @@ export default async function ProductPage({
     notFound();
   }
 
+  const productUrl = `${SITE_URL}/produits/${product.slug}`;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Boutique", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: categoryLabel(product.category),
+        item: `${SITE_URL}/categorie/${product.category}`,
+      },
+      ...(product.subcategory
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: subcategoryLabel(product.subcategory),
+              item: `${SITE_URL}/categorie/${product.category}/${product.subcategory}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: product.subcategory ? 4 : 3,
+        name: product.name,
+        item: productUrl,
+      },
+    ],
+  };
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: descriptionExcerpt(product.description, 500),
+    ...(product.image_url ? { image: [product.image_url] } : {}),
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: product.currency,
+      price: (product.price_cents / 100).toFixed(2),
+      availability: product.in_stock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <div className="flex flex-1 flex-col bg-stone-50 dark:bg-stone-950">
+      <JsonLd data={breadcrumbJsonLd} />
+      <JsonLd data={productJsonLd} />
       <header className="border-b border-stone-200 dark:border-stone-800">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
           <Link
@@ -44,7 +134,7 @@ export default async function ProductPage({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={product.image_url}
-              alt={product.name}
+              alt={`${product.name} — ${categoryLabel(product.category)}`}
               className="h-full w-full scale-125 object-cover"
             />
           ) : (

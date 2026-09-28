@@ -41,6 +41,18 @@ export function formatPrice(priceCents: number, currency: string): string {
   );
 }
 
+// Les descriptions produit sont au format "accroche\n\nCe que vous
+// obtenez :\n• ...\n\nphrase d'usage" : on ne garde que l'accroche pour les
+// balises meta description, tronquée à une longueur adaptée aux SERP.
+export function descriptionExcerpt(description: string, maxLength = 155): string {
+  const hook = description.split("\n\n")[0].trim();
+  if (hook.length <= maxLength) return hook;
+  return `${hook.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://home-wellness.whatelsebyvinc.com";
+
 export async function getProducts(): Promise<Product[]> {
   const sql = getSql();
   return (await sql`

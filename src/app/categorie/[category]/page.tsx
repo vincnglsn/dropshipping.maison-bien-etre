@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import {
   CATEGORY_LABELS,
   categoryLabel,
   getCategoryTree,
   getProductsByCategory,
+  SITE_URL,
 } from "@/lib/products";
 import { CartHeaderLink } from "@/components/CartHeaderLink";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CategoryNav } from "@/components/CategoryNav";
 import { GroupedProductGrid } from "@/components/ProductGrid";
+import { JsonLd } from "@/components/JsonLd";
 
 export const revalidate = 60;
 
@@ -17,9 +20,23 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ category: string }>;
-}) {
+}): Promise<Metadata> {
   const { category } = await params;
-  return { title: `${categoryLabel(category)} — Maison Bien-Être` };
+  if (!(category in CATEGORY_LABELS)) {
+    return { title: "Catégorie introuvable — Maison Bien-Être" };
+  }
+
+  const label = categoryLabel(category);
+  const title = `${label} — Maison Bien-Être`;
+  const description = `Découvrez notre sélection ${label.toLowerCase()} : objets choisis pour leur qualité et leur utilité réelle, livraison suivie et retour possible sous 14 jours.`;
+  const url = `${SITE_URL}/categorie/${category}`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url, type: "website" },
+  };
 }
 
 export default async function CategoryPage({
@@ -38,8 +55,23 @@ export default async function CategoryPage({
     getCategoryTree().catch(() => []),
   ]);
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Boutique", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: categoryLabel(category),
+        item: `${SITE_URL}/categorie/${category}`,
+      },
+    ],
+  };
+
   return (
     <div className="flex flex-1 flex-col bg-stone-50 dark:bg-stone-950">
+      <JsonLd data={breadcrumbJsonLd} />
       <header className="border-b border-stone-200 dark:border-stone-800">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
           <Link
@@ -56,9 +88,13 @@ export default async function CategoryPage({
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-        <h1 className="mb-6 text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
+        <h1 className="mb-2 text-2xl font-serif font-semibold text-stone-900 dark:text-stone-50">
           {categoryLabel(category)}
         </h1>
+        <p className="mb-6 max-w-2xl text-stone-600 dark:text-stone-400">
+          Une sélection d&apos;articles {categoryLabel(category).toLowerCase()}, choisis pour leur
+          utilité réelle plutôt qu&apos;un catalogue sans fin.
+        </p>
 
         <CategoryNav tree={tree} activeCategory={category} />
 
