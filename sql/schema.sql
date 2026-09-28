@@ -785,3 +785,41 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Un produit supplementaire (2026-09-28, encore) : meme critere (prix de
+-- gros + livraison reelle verifies via freightCalculate, marge nette ~31%).
+-- Deux autres candidats de cette recherche (boule de cristal, brassard
+-- d'epaule) ont ete ecartes : le premier avait un cout de livraison
+-- disproportionne par rapport a son prix, le second n'avait aucune photo
+-- utilisable sans filigrane chinois ou cotes techniques superposees.
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('pot-fleurs-venus', 'Pot de Fleurs Vénus (visage antique)',
+   $$Un pot de fleurs en céramique sculpté façon buste antique, pour une touche artistique et un peu décalée dans une déco de plante.
+
+Ce que vous obtenez :
+• Céramique artisanale, chaque pièce a de légères variations qui la rendent unique
+• Format compact (15,5cm), parfait pour une petite plante grasse ou un cactus
+• Un visage sculpté qui attire l'œil même sans plante à l'intérieur
+• Trou de drainage pensé pour un usage réel comme pot de fleurs
+
+À poser sur un rebord de fenêtre, une étagère ou un bureau, pour une pièce déco qui détonne un peu des pots classiques.$$,
+   3490, 'https://cf.cjdropshipping.com/20200628/1248814411301.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/1440A6F3-AF2A-40BA-884E-29DC1E69B09B.html',
+   '1440A6F3-AF2A-40BA-884E-29DC1E69B09B', '23BB1258-82BF-49A9-839B-862CB3E4F4CA', 'CJJJJTCC00735-Green', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
