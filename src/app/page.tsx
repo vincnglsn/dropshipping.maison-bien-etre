@@ -34,23 +34,14 @@ export default async function Home() {
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-        <section className="relative mb-12 flex min-h-64 items-center justify-center overflow-hidden rounded-2xl px-6 py-16 text-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="https://cf.cjdropshipping.com/102bafe6-82ba-404f-b0fd-7e65c1b9d797.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/55" />
-          <div className="relative z-10">
-            <h1 className="text-3xl font-serif font-semibold text-white">
-              Une maison apaisée, un quotidien plus doux
-            </h1>
-            <p className="mx-auto mt-3 max-w-xl text-white/90">
-              Une sélection d&apos;objets de bien-être et de décoration pour créer
-              un intérieur serein.
-            </p>
-          </div>
+        <section className="mb-12 text-center">
+          <h1 className="text-3xl font-serif font-semibold text-stone-900 dark:text-stone-50">
+            Une maison apaisée, un quotidien plus doux
+          </h1>
+          <p className="mx-auto mt-3 max-w-xl text-stone-600 dark:text-stone-400">
+            Une sélection d&apos;objets de bien-être et de décoration pour créer
+            un intérieur serein.
+          </p>
         </section>
 
         {dbError && (
