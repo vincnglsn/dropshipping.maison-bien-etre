@@ -670,3 +670,69 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Cohérence saisonnière (2026-09-28) : la couverture rafraîchissante d'été
+-- n'avait pas de sens à vendre en plein automne. Retirée et remplacée par
+-- trois produits d'automne, chacun vérifié (prix de gros + livraison réelle
+-- via freightCalculate) pour une marge nette de 28 à 32%.
+delete from products where slug = 'couverture-rafraichissante';
+
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('chaussettes-cocooning-hiver', 'Chaussettes Cocooning (lot de 6 paires)',
+   $$Un lot de 6 paires de chaussettes épaisses en polaire, pour garder les pieds au chaud dès que les températures baissent.
+
+Ce que vous obtenez :
+• Matière polaire douce et épaisse, idéale pour l'automne et l'hiver
+• Lot de 6 paires, pour ne jamais tomber en rupture de chaussettes chaudes
+• Taille unique adaptée à la majorité des pointures
+• À porter chez soi ou sous des bottes les jours de grand froid
+
+Le petit plaisir cocooning du soir, quand on troque les chaussures pour de bonnes chaussettes chaudes devant la cheminée ou le canapé.$$,
+   1990, 'https://cf.cjdropshipping.com/16015680/31389527442.jpg', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/BE3188AA-FABD-45E1-A930-9C31AE949EA1.html',
+   'BE3188AA-FABD-45E1-A930-9C31AE949EA1', '7A5568B6-9524-4714-BB26-A8E67BEDC95D', 'CJNSFSWZ00761-6pcs a set-One size', 'CJPacket Ordinary I'),
+
+  ('chauffe-tasse-electrique', 'Chauffe-Tasse Électrique',
+   $$Un sous-tasse chauffant électrique, pour garder son café ou son thé à bonne température tout au long d'une matinée d'automne.
+
+Ce que vous obtenez :
+• Plaque chauffante qui maintient la boisson chaude sans la faire bouillir
+• Format compact, posé sur un bureau ou une table basse
+• Prise EU compatible directement en France
+• S'allume et s'éteint en une pression, sans réglage compliqué
+
+Idéal pour prolonger le plaisir d'une boisson chaude pendant le télétravail ou une longue lecture d'automne, sans avoir à la réchauffer sans cesse.$$,
+   1990, 'https://cf.cjdropshipping.com/20200907/4111441235087.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/882BFFFA-F650-4B1A-B793-AAA9C0BBDBB0.html',
+   '882BFFFA-F650-4B1A-B793-AAA9C0BBDBB0', '8E341AF9-F094-4030-8817-D47282EBB985', 'CJJZJYCF00045-Black-EU plug', 'CJPacket Ordinary I'),
+
+  ('lanternes-citrouille-automne', 'Lanternes Citrouilles Lumineuses (lot de 3)',
+   $$Un lot de 3 lanternes citrouilles en résine, à poser pour une ambiance chaleureuse et automnale dès la tombée de la nuit.
+
+Ce que vous obtenez :
+• Lot de 3 tailles différentes, pour composer une mise en scène immédiatement
+• Lumière LED chaude et douce, sans flamme ni risque de brûlure
+• Format décoratif, à poser sur un rebord de fenêtre, une table ou une entrée
+• Fonctionne sur piles, sans câble ni prise à proximité
+
+Parfaites pour l'automne et Halloween, elles créent une ambiance cosy sur un rebord de fenêtre ou une table d'entrée dès les premiers jours d'octobre.$$,
+   1990, 'https://cf.cjdropshipping.com/e797021a-dff3-4a5e-8a23-bc2dac1daed3.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/1433704456083607552.html',
+   '1433704456083607552', '1438863274933358592', 'CJHD127432304DW', 'CJPacket Euro Sensitive F')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
