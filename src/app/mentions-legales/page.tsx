@@ -18,12 +18,11 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="mb-2 font-semibold text-stone-900 dark:text-stone-50">Éditeur du site</h2>
             <p>
-              Maison Bien-Être — [Nom et prénom de l&apos;exploitant à compléter], entrepreneur
-              individuel.
+              Maison Bien-Être — Vincent Nageleisen, entrepreneur individuel.
               <br />
-              SIRET : [à compléter]
+              SIREN : 434 368 221
               <br />
-              Adresse : [adresse de l&apos;entreprise à compléter]
+              Adresse : 159 allée des Vignes, 84810 Aubignan, France
               <br />
               E-mail : contact@whatelsebyvinc.com
             </p>
