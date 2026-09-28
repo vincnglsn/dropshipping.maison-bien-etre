@@ -15,8 +15,12 @@ export type Product = {
 
 export const CATEGORY_LABELS: Record<string, string> = {
   "bien-etre": "Bien-être",
-  decoration: "Décoration",
+  decoration: "Maison",
 };
+
+// Ordre d'affichage voulu pour les catégories (indépendant de l'ordre
+// alphabétique des libellés).
+const CATEGORY_ORDER = ["decoration", "bien-etre"];
 
 export const SUBCATEGORY_LABELS: Record<string, string> = {
   "massage-detente": "Massage & Détente",
@@ -58,7 +62,7 @@ export async function getProducts(): Promise<Product[]> {
   return (await sql`
     select id, slug, name, description, price_cents, currency, image_url, category, subcategory, in_stock
     from products
-    order by in_stock desc, category, subcategory nulls last, created_at desc
+    order by in_stock desc, (category = 'bien-etre'), subcategory nulls last, created_at desc
   `) as unknown as Product[];
 }
 
@@ -154,7 +158,9 @@ export async function getCategoryTree(): Promise<CategoryTree[]> {
     entry.subcategories.sort((a, b) => a.label.localeCompare(b.label, "fr"));
   }
 
-  return Array.from(byCategory.values()).sort((a, b) => a.label.localeCompare(b.label, "fr"));
+  return Array.from(byCategory.values()).sort(
+    (a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category)
+  );
 }
 
 export function groupBySubcategory(
