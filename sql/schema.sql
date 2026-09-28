@@ -298,3 +298,60 @@ where slug in ('guirlande-macrame-murale', 'tenture-murale-foret-etoilee');
 
 update products set subcategory = 'objets-zen'
 where slug in ('humidificateur-vase-decoratif', 'pyramide-cristal-oeil-de-tigre', 'bruleur-encens-zen-ceramique');
+
+-- Réécriture des descriptions produit (2026-09-28) : les descriptions
+-- initiales étaient trop courtes pour donner envie d'acheter. Nouvelles
+-- descriptions plus détaillées (fonctionnement, usage concret, bénéfice).
+update products set description = 'Diffuseur ultrasonique à froid en bois véritable, sans chaleur ni combustion, pour préserver toutes les vertus de vos huiles essentielles. Réservoir grande capacité pour une diffusion silencieuse jusqu''à 6h en continu, avec un éclairage LED multicolore réglable pour une ambiance douce en soirée. S''arrête automatiquement une fois l''eau évaporée, sans surveillance nécessaire : à poser dans le salon, la chambre ou un bureau.'
+where slug = 'diffuseur-huiles-essentielles';
+
+update products set description = 'Miroir grossissant avec anneau LED intégré, pour une lumière homogène qui révèle chaque détail sans zone d''ombre, idéal pour le maquillage ou le soin du visage. Batterie rechargeable par USB : aucun câble ni prise à proximité, il se pose où l''on veut, salle de bain, chambre ou coiffeuse. Intensité lumineuse réglable au toucher pour s''adapter à la luminosité de la pièce.'
+where slug = 'miroir-led-sans-fil';
+
+update products set description = 'Veilleuse en forme de lune imprimée en relief 3D, en lévitation magnétique au-dessus de son socle en bois : elle tourne doucement dans les airs, sans fil ni support visible. Télécommande tactile pour choisir parmi plusieurs teintes de lumière et régler l''intensité, pour un clair de lune apaisant qui accompagne l''endormissement. Un objet aussi fonctionnel que décoratif, qui attire les regards dans une chambre ou un salon.'
+where slug = 'veilleuse-lune-3d';
+
+update products set description = 'Plaid en laine composite double face, ultra doux façon peluche d''un côté et texturé gaufré de l''autre, épais sans être lourd. Format généreux pour s''y blottir en entier sur le canapé ou dans le lit, et garder la chaleur sans surchauffer. Facile d''entretien, ne bouloche pas au lavage : un indispensable pour les soirées cocooning et les fins de journée qui s''éternisent.'
+where slug = 'plaid-moelleux-cocooning';
+
+update products set description = 'Masseur électrique à billes rotatives avec fonction chauffante intégrée, pour un pétrissage profond façon shiatsu qui dénoue les tensions de la nuque, des épaules et du bas du dos. Deux sangles réglables permettent de le fixer sur une chaise de bureau, un fauteuil, ou le siège de la voiture grâce à l''adaptateur allume-cigare fourni. Idéal après une journée assise ou une séance de sport, à la maison comme en déplacement.'
+where slug = 'coussin-masseur-nuque';
+
+update products set description = 'Brûle-encens en céramique émaillée, sculpté en forme de fleur de lotus, pour accueillir un cône ou un bâtonnet d''encens en toute sécurité. La fumée s''échappe doucement par les pétales ajourés, créant un effet visuel apaisant en plus du parfum diffusé. Un objet décoratif à part entière, à poser sur une table basse, une étagère ou un coin méditation.'
+where slug = 'bruleur-encens-zen-ceramique';
+
+update products set description = 'Suspension murale tissée à la main selon des techniques traditionnelles de macramé, en coton naturel texturé pour un rendu artisanal authentique. Elle vient habiller un mur nu au-dessus d''un lit ou d''un canapé, pour une touche bohème et chaleureuse sans multiplier les trous dans le mur. Livrée avec sa branche de bois pour un accrochage immédiat, prête à suspendre dès réception.'
+where slug = 'guirlande-macrame-murale';
+
+update products set description = 'Correcteur de posture avec capteur électronique intégré : il détecte quand le dos se voûte et vibre discrètement pour rappeler de se redresser, sans avoir à y penser. Écran digital affichant l''angle d''inclinaison et le nombre de rappels reçus dans la journée, pour suivre ses progrès au fil du temps. Harnais réglable en mousse respirante, à porter sous ou sur un vêtement au bureau, en télétravail ou pendant le sport.'
+where slug = 'correcteur-posture-intelligent';
+
+update products set description = 'Hamac de yoga aérien en tissu résistant, avec sangles de suspension et quincaillerie de fixation incluses pour un montage au plafond ou sur une structure adaptée. Il permet des étirements en décharge complète du poids du corps, pour soulager les vertèbres et progresser en souplesse sans forcer sur les articulations. Convient aussi bien à la pratique du yoga aérien qu''à un simple moment de détente suspendu.'
+where slug = 'hamac-yoga-anti-gravite';
+
+update products set description = 'Masseur électrique à double tête avec rouleaux vibrants et fonction chauffante, pour un massage en pétrissage profond qui détend le dos, les jambes, les épaules et les mollets. Moteur silencieux et prise en main ergonomique pour atteindre facilement toutes les zones, seul ou à deux. Plusieurs vitesses réglables pour adapter l''intensité, du massage léger de détente au pétrissage plus soutenu après le sport.'
+where slug = 'masseur-corps-electrique';
+
+update products set description = 'Humidificateur d''air ultrasonique en forme de vase texturé façon bois, qui diffuse une brume fine et silencieuse pour réhydrater l''air ambiant, particulièrement utile en hiver avec le chauffage. Réservoir dissimulé dans la base du vase, à remplir simplement, pour un objet qui reste décoratif même éteint sur une étagère ou une table de chevet. Fonctionne aussi bien avec de l''eau seule qu''avec quelques gouttes d''huile essentielle pour parfumer la pièce.'
+where slug = 'humidificateur-vase-decoratif';
+
+update products set description = 'Appareil de soin du visage 7-en-1 combinant micro-courants EMS, luminothérapie LED multicolore et vibrations, pour un rituel de soin façon institut à la maison. Chaque couleur de LED correspond à un objectif différent (fermeté, éclat, apaisement) selon les principes classiques de la luminothérapie. Rechargeable par USB, à utiliser quelques minutes par jour en complément de sa crème habituelle, pour intégrer un geste beauté simple à sa routine.'
+where slug = 'masseur-facial-led';
+
+update products set description = 'Dispositif de traction cervicale et lombaire à gonfler soi-même, qui étire en douceur les vertèbres du cou pour relâcher la pression accumulée après une journée passée assis ou penché sur un écran. S''utilise allongé, quelques minutes par jour, en toute autonomie et sans rendez-vous. Une routine simple à intégrer avant de dormir ou en pause pour soulager les tensions de la nuque.'
+where slug = 'appareil-traction-cervicale';
+
+update products set description = 'Grande tenture murale en tissu léger imprimé d''une forêt sous un ciel étoilé, pour transformer un mur nu en quelques minutes sans travaux. Format généreux pensé pour couvrir toute la largeur d''une tête de lit ou d''un canapé, avec des couleurs profondes qui restent nettes au lavage. Se fixe avec des punaises ou du ruban adhésif double-face (non fourni), pour une déco bohème facile à installer et à faire évoluer.'
+where slug = 'tenture-murale-foret-etoilee';
+
+update products set description = 'Chaussettes de compression graduée, plus serrées à la cheville et plus souples vers le mollet, qui stimulent le retour veineux et réduisent la sensation de jambes lourdes. Recommandées après le sport, lors de longs trajets en avion ou en voiture, ou simplement pour les journées passées debout. Tissu respirant renforcé aux zones de friction, taille S/M, pour un maintien confortable toute la journée.'
+where slug = 'chaussettes-compression';
+
+update products set description = 'Taie d''oreiller en satin doux façon soie, dont la texture lisse réduit les frottements responsables des frisottis et des marques d''oreiller sur le visage au réveil. Format standard français 50x75cm, compatible avec la plupart des oreillers du commerce. Un petit geste beauté nocturne qui préserve les cheveux lissés ou colorés et la peau, sans changer ses habitudes de sommeil.'
+where slug = 'taie-oreiller-satin';
+
+update products set description = 'Pyramide façon orgonite en résine incluant de la pierre naturelle œil-de-tigre, traditionnellement associée à la confiance en soi et à l''ancrage. Un objet à la fois décoratif et symbolique, à poser sur un bureau, une étagère ou un coin méditation. Sa forme géométrique et ses reflets dorés en font une pièce qui attire l''œil, que l''on soit adepte de lithothérapie ou simplement sensible à l''esthétique des cristaux.'
+where slug = 'pyramide-cristal-oeil-de-tigre';
+
+update products set description = 'Pommeau de douche équipé d''une petite turbine interne qui accélère et resserre le jet d''eau, pour une sensation de pression plus forte tout en réduisant la consommation d''eau. Rotation à 360° pour orienter facilement le jet, installation simple sans outil sur la plupart des flexibles de douche standards. Une amélioration immédiate du confort de douche, pensée aussi pour un usage plus responsable de l''eau.'
+where slug = 'pommeau-douche-econome';
