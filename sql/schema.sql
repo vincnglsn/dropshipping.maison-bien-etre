@@ -151,6 +151,49 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku;
 
+-- Troisième vague de produits (2026-09-28, suite) : mêmes critères que la
+-- vague précédente (API CJdropshipping, productFlag=0 "trending products",
+-- niche bien-être/décoration).
+insert into products (
+  slug, name, description, price_cents, image_url, category, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku
+)
+values
+  ('masseur-facial-led', 'Masseur Facial LED 7-en-1',
+   'Appareil de soin du visage 7 fonctions : micro-courant EMS, luminothérapie LED et vibrations, pour raffermir et purifier la peau à domicile.',
+   2990, 'https://cf.cjdropshipping.com/a83f7246-f723-4224-bd1e-30b25a74de31.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1406822350284001280.html',
+   '1406822350284001280', '1406822351689093120', 'CJCC118382301AZ'),
+
+  ('appareil-traction-cervicale', 'Appareil de Traction Cervicale',
+   'Dispositif de soutien lombaire et cervical pour étirer la nuque en douceur et soulager les tensions liées à une journée assise.',
+   1990, 'https://cf.cjdropshipping.com/20200925/657681664249.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/36A945E0-1C6D-44DD-A029-446411EB8200.html',
+   '36A945E0-1C6D-44DD-A029-446411EB8200', '3BFEF9D7-3977-4336-B48F-7DE6E27E4F8C', 'CJBJMRAM01043-Blue-English'),
+
+  ('tenture-murale-foret-etoilee', 'Tenture Murale Forêt Étoilée',
+   'Grande tenture murale en tissu façon forêt sous un ciel étoilé, pour une décoration bohème et apaisante au-dessus du lit ou du canapé.',
+   2990, 'https://cf.cjdropshipping.com/20190328/3732392518590.jpg', 'decoration',
+   'https://cjdropshipping.com/product/A9C75904-0592-412C-9EC2-15B1F9378C0A.html',
+   'A9C75904-0592-412C-9EC2-15B1F9378C0A', 'B68281A4-EEC5-4148-BEEE-3D8D80BE291D', 'CJJJJFCS00180-150x230cm thick'),
+
+  ('chaussettes-compression', 'Chaussettes de Compression (taille S/M)',
+   'Chaussettes de compression graduée pour améliorer la circulation, réduire les jambes lourdes et accélérer la récupération après le sport ou un long trajet.',
+   1490, 'https://cf.cjdropshipping.com/2a96241b-bf97-4619-8766-12e4bb1a7593.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/4A4F16B0-D283-4B64-8A51-A87A6919B30F.html',
+   '4A4F16B0-D283-4B64-8A51-A87A6919B30F', '1453552568792911872', 'CJYDQXZQ00002-Black 2PC-S M')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku;
+
 -- Nouvelle vague de produits (2026-09-28) : sélectionnés parmi les articles
 -- marqués "trending" par l'API CJdropshipping (productFlag=0) dans la
 -- catégorie bien-être, pour des sujets à forte demande côté acheteurs.
