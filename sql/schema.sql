@@ -150,3 +150,46 @@ on conflict (slug) do update set
   cj_product_id = excluded.cj_product_id,
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku;
+
+-- Nouvelle vague de produits (2026-09-28) : sélectionnés parmi les articles
+-- marqués "trending" par l'API CJdropshipping (productFlag=0) dans la
+-- catégorie bien-être, pour des sujets à forte demande côté acheteurs.
+insert into products (
+  slug, name, description, price_cents, image_url, category, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku
+)
+values
+  ('correcteur-posture-intelligent', 'Correcteur de Posture Intelligent',
+   'Support dorsal ajustable pour corriger le dos vouté et soulager les tensions des épaules et de la clavicule, à porter au quotidien.',
+   1990, 'https://cf.cjdropshipping.com/1612487036024.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/1357500854936145920.html',
+   '1357500854936145920', '1357500854957117440', 'CJJT100662701AZ'),
+
+  ('hamac-yoga-anti-gravite', 'Hamac de Yoga Anti-Gravité',
+   'Hamac de yoga aérien avec sangles de suspension incluses, pour des étirements en décharge, renforcer la souplesse et soulager le dos.',
+   4490, 'https://cf.cjdropshipping.com/1621574645683.png', 'bien-etre',
+   'https://cjdropshipping.com/product/8A13D4EE-2E18-44E9-8B48-2AD44C01255F.html',
+   '8A13D4EE-2E18-44E9-8B48-2AD44C01255F', '1395612270276513792', 'CJYDQTJM00149-Black with Hangers straps'),
+
+  ('masseur-corps-electrique', 'Masseur Corps Complet Électrique',
+   'Masseur électrique à rouleaux vibrants, silencieux, pour pétrir et détendre le dos, les jambes et les épaules après l''effort.',
+   2990, 'https://cf.cjdropshipping.com/15432480/876152385486.jpg', 'bien-etre',
+   'https://cjdropshipping.com/product/E98BD910-C1BD-48C3-9D94-7A1766E1735B.html',
+   'E98BD910-C1BD-48C3-9D94-7A1766E1735B', '2FFB3297-8E92-4684-8EB0-B3E09FDA009E', 'CJBJPFST00149-EU Plug-220V'),
+
+  ('humidificateur-vase-decoratif', 'Humidificateur Vase Décoratif',
+   'Humidificateur d''air en forme de vase façon bois, diffusion silencieuse pour assainir l''air tout en habillant une étagère ou un bureau.',
+   2490, 'https://cf.cjdropshipping.com/15415200/941686723803.jpg', 'decoration',
+   'https://cjdropshipping.com/product/8660979B-2AF0-4295-ACD4-61342DA354D9.html',
+   '8660979B-2AF0-4295-ACD4-61342DA354D9', '09A3B203-9DB1-4EC6-A4F2-CB01EA39EA06', 'CJBJMRMB00020-Light wood grain')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku;
