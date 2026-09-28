@@ -575,3 +575,14 @@ update products set cj_logistic_name = 'CJPacket Euro Sensitive F'
 where slug in ('correcteur-posture-intelligent', 'coussin-masseur-nuque', 'masseur-facial-led', 'miroir-led-sans-fil', 'veilleuse-lune-3d');
 update products set cj_logistic_name = 'YunExpress Sensitive'
 where slug = 'masseur-corps-electrique';
+
+-- Correction des marges (2026-09-28) : après calcul du coût réel de
+-- livraison CJ vers la France (API freightCalculate), 3 produits vendaient
+-- à perte et 1 avait une marge quasi nulle. Retrait des deux produits dont
+-- le rapport poids/volume rendait la livraison structurellement trop chère
+-- (hamac de yoga, masseur corps électrique) et augmentation des deux autres
+-- pour retrouver une marge saine tout en restant dans les prix du marché.
+delete from products where slug in ('hamac-yoga-anti-gravite', 'masseur-corps-electrique');
+
+update products set price_cents = 3290 where slug = 'appareil-traction-cervicale';
+update products set price_cents = 4490 where slug = 'veilleuse-lune-3d';
