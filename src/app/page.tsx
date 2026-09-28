@@ -85,6 +85,29 @@ export default async function Home() {
             </Link>
           ))}
         </div>
+
+        <section className="mt-16 grid grid-cols-1 gap-8 border-t border-stone-200 pt-12 text-center sm:grid-cols-3 dark:border-stone-800">
+          <div>
+            <p className="font-semibold text-stone-900 dark:text-stone-50">Paiement sécurisé</p>
+            <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+              Transactions chiffrées via Stripe, aucune donnée bancaire stockée sur ce site.
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold text-stone-900 dark:text-stone-50">Livraison suivie</p>
+            <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+              Numéro de suivi communiqué dès l&apos;expédition de votre commande.
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold text-stone-900 dark:text-stone-50">
+              Rétractation 14 jours
+            </p>
+            <p className="mt-1 text-sm text-stone-600 dark:text-stone-400">
+              Un produit ne convient pas ? Retour possible dans les 14 jours suivant réception.
+            </p>
+          </div>
+        </section>
       </main>
 
       <SiteFooter />
