@@ -20,7 +20,7 @@ export default function MentionsLegalesPage() {
             <p>
               Maison Bien-Être — Vincent Nageleisen, entrepreneur individuel.
               <br />
-              SIREN : 434 368 221
+              SIRET : 434 368 221 00025
               <br />
               Adresse : 159 allée des Vignes, 84810 Aubignan, France
               <br />
