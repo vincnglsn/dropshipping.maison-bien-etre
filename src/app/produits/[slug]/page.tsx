@@ -76,7 +76,9 @@ export default async function ProductPage({
           <p className="text-lg font-semibold text-stone-900 dark:text-stone-50">
             {formatPrice(product.price_cents, product.currency)}
           </p>
-          <p className="text-stone-600 dark:text-stone-400">{product.description}</p>
+          <p className="whitespace-pre-line text-stone-600 dark:text-stone-400">
+            {product.description}
+          </p>
           <AddToCartButton
             slug={product.slug}
             name={product.name}
