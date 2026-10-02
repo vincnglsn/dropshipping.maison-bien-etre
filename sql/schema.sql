@@ -823,3 +823,115 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Sixieme vague de produits (2026-10-02) : 6 articles (3 bien-etre, 3 maison)
+-- trouves via l'API CJdropshipping (listV2), avec prix de gros et livraison
+-- reelle vers la France verifies via freightCalculate (marge nette 38 a 52%
+-- apres TVA 20% et frais Stripe). Ecartes apres verification des photos :
+-- un rouleau plantaire dont la photo ne correspondait pas au produit decrit,
+-- un bougeoir en quartz rose dont la photo comportait des zones pixelisees,
+-- et un coussin lombaire / un oreiller cervical dont la livraison depassait
+-- 3 fois le prix de gros.
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('masseur-crane-8-griffes', 'Masseur de Crâne 8 Griffes Vibrant',
+   $$Un masseur de cuir chevelu à 8 branches souples, pour s'offrir en quelques minutes une vraie parenthèse de détente à la maison, sans rendez-vous.
+
+Ce que vous obtenez :
+• 8 griffes flexibles qui épousent la forme du crâne et se déplacent en douceur sur tout le cuir chevelu
+• Mode vibration activé d'une simple pression sur le bouton, pour une sensation de picotements apaisante
+• Manche ergonomique en plastique léger (environ 180 g), facile à prendre en main d'une seule main
+• Compact : se range dans un tiroir, un sac de sport ou une valise
+
+À utiliser le soir après une journée devant l'écran, avant le shampoing ou simplement pour décompresser, en glissant les griffes sur le cuir chevelu par petits mouvements circulaires.$$,
+   1990, 'https://cf.cjdropshipping.com/1619772598845.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/1387972416516526080.html',
+   '1387972416516526080', '1387972417938395136', 'CJST110710401AZ', 'CJPacket Euro Sensitive F'),
+
+  ('masque-sommeil-3d-ajustable', 'Masque de Sommeil 3D Ajustable',
+   $$Un masque de nuit à coques 3D qui bloque la lumière sans appuyer sur les yeux, pensé pour dormir en paix, en voyage comme à la maison.
+
+Ce que vous obtenez :
+• Forme 3D creusée au niveau des yeux : les paupières restent libres de cligner, sans pression ni gêne sur les cils
+• Rembourrage en mousse et tissu doux, agréable au contact de la peau
+• Sangle élastique ajustable pour s'adapter à toutes les tailles de tête, sans serrer
+• Très léger (environ 90 g) et livré dans une petite pochette en tissu
+
+Idéal pour la sieste en journée, les nuits d'été où le soleil se lève tôt, les trajets en train ou en avion, et pour tous ceux qui ont besoin d'une obscurité totale pour s'endormir.$$,
+   1390, 'https://cf.cjdropshipping.com/20200907/1046410921119.png', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/B15D8D56-5637-4BE9-A14C-C11F1C141055.html',
+   'B15D8D56-5637-4BE9-A14C-C11F1C141055', '1459754131051909120', 'CJBJPFMZ00232-Grey outline', 'CJPacket Ordinary'),
+
+  ('masseur-nuque-rouleaux-360', 'Masseur de Nuque à Rouleaux 360°',
+   $$Un masseur manuel en forme de collier qui vient presser la nuque et les trapèzes, pour dénouer les tensions après de longues heures de bureau ou de canapé, sans prise ni batterie.
+
+Ce que vous obtenez :
+• Deux rouleaux qui pivotent à 360° et se déplacent le long de la nuque, avec 96 points de pression en relief
+• Billes magnétiques intégrées aux rouleaux
+• Structure d'une seule pièce, solide et pensée pour épouser la courbure de la nuque
+• Poignées aux deux extrémités : vous réglez vous-même la pression, du plus doux au plus profond
+• Utilisable aussi sur les épaules, le dos, les jambes ou les pieds
+• Coloris rose, léger (environ 260 g)
+
+Se glisse autour du cou en position assise : tirez doucement sur les poignées pour faire rouler les billes pendant 10 à 20 minutes, devant la télévision ou à la pause du bureau.$$,
+   2290, 'https://cf.cjdropshipping.com/37a5497d-67d1-4a5c-8b15-9a3beaf2d77c.jpg', 'bien-etre', 'massage-detente',
+   'https://cjdropshipping.com/product/1626200601338064896.html',
+   '1626200601338064896', '1626200601480671232', 'CJJT168578902BY', 'CJPacket Ordinary I'),
+
+  ('bougeoir-croissant-lune-dore', 'Bougeoir Croissant de Lune Ajouré (doré)',
+   $$Un bougeoir en métal ajouré en forme de croissant de lune, qui projette de jolis jeux de lumière sur le mur et la table quand la flamme s'allume.
+
+Ce que vous obtenez :
+• Métal doré durable, ajouré de motifs de bulles, avec une petite étoile suspendue
+• Format compact d'environ 10,5 × 9,8 cm, qui se glisse sur une table de chevet, une étagère ou un rebord de fenêtre
+• Accueille une bougie chauffe-plat standard (non fournie)
+• Une belle pièce déco toute l'année, avec un côté festif pour les repas de fête et les soirées d'hiver
+
+À poser seul pour une ambiance tamisée, ou à associer par deux à côté d'un vase de fleurs pour une table cosy.$$,
+   1690, 'https://cf.cjdropshipping.com/5cf560e0-353d-404c-846e-fd62db1cae04.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/1580850391829458944.html',
+   '1580850391829458944', '1580850391988842496', 'CJJT158736501AZ', 'CJPacket Ordinary I'),
+
+  ('attrape-reves-arbre-de-vie', 'Attrape-Rêves Arbre de Vie & Lune (plumes turquoise)',
+   $$Un attrape-rêves fait main en plumes turquoise, orné d'un petit arbre de vie en perles et d'un croissant de lune, pour apporter une ambiance bohème et apaisante au-dessus du lit ou au mur.
+
+Ce que vous obtenez :
+• Cercle principal d'environ 16 cm de diamètre, tissé avec des perles turquoise et noires
+• Arbre de vie en fil de cuivre et petites pierres, suspendu dans un second cercle, avec un pendentif cristal
+• Franges de plumes turquoise et perles de bois, qui bougent doucement au moindre courant d'air
+• Livré prêt à accrocher grâce à son anneau de fixation
+
+À suspendre au-dessus d'une tête de lit, dans une chambre d'enfant, près d'une fenêtre ou dans un coin lecture, pour une touche de couleur et de douceur.$$,
+   2190, 'https://cf.cjdropshipping.com/7d25c30c-b134-4404-8d07-ff524b821612.jpg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/1545666121330864128.html',
+   '1545666121330864128', '1545666121427333120', 'CJJT152153401AZ', 'CJPacket Euro Sensitive F'),
+
+  ('tenture-murale-tarot-etoile', 'Tenture Murale Tarot « The Star » (95 x 73 cm)',
+   $$Une tenture murale en noir et blanc inspirée des cartes de tarot : une femme assise en méditation face à l'océan sous une grande étoile, pour une déco zen et mystérieuse.
+
+Ce que vous obtenez :
+• Grand format de 95 × 73 cm, qui habille un mur entier au-dessus d'un lit, d'un canapé ou d'un bureau
+• Tissu 100 % polyester tissé machine, léger et facile à accrocher
+• Illustration contrastée en noir et blanc avec cadre ornemental et inscription « The Star »
+• Se marie avec tous les intérieurs : bohème, minimaliste, ou ambiance méditation et yoga
+
+À fixer avec des clous, de la pâte adhésive ou des baguettes en bois, pour transformer un mur nu en coin cosy en quelques minutes.$$,
+   1590, 'https://cf.cjdropshipping.com/1622775046042.jpg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/1400647864312532992.html',
+   '1400647864312532992', '1400647865767956480', 'CJZS115880701AZ', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
