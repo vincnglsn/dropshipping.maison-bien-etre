@@ -1047,3 +1047,115 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Huitieme vague de produits (2026-10-02, suite) : 6 articles (3 bien-etre,
+-- 3 maison) trouves via l'API CJdropshipping (listV2), avec prix de gros et
+-- livraison reelle vers la France verifies via freightCalculate (marge nette
+-- 37 a 50% apres TVA 20% et frais Stripe). Ecartes apres verification : un
+-- masseur a boules (emballage et texte en chinois sur la photo), un masque
+-- chaud/froid (fiche floue sur le contenu reel), des tapis de yoga et des
+-- vases en ceramique (livraison disproportionnee), une suspension macrame
+-- murale (marge insuffisante).
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('lime-pieds-verre-nano', 'Lime à Pieds en Verre Nano',
+   $$Une lime à pieds à surface en verre nano, pour entretenir la peau des talons et des plantes de pieds à la maison, sans passer par une visite chez le pédicure.
+
+Ce que vous obtenez :
+• Surface abrasive en verre nano, au motif alvéolé, qui travaille la peau sèche de façon régulière
+• Corps en ABS à la forme galbée, qui se tient bien en main, y compris les pieds humides
+• Coloris bleu métallisé, à l'allure moderne
+• Format compact et très léger (environ 65 g), qui se range dans la salle de bain ou la trousse de toilette
+
+À utiliser après la douche, sur peau sèche ou légèrement humide, par mouvements doux et réguliers sur les talons, puis à compléter d'une crème hydratante pour un rituel soin des pieds complet.$$,
+   1290, 'https://cf.cjdropshipping.com/quick/product/2326b67c-e3e6-4372-9950-efed51b9bae5.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/2406150807561628300.html',
+   '2406150807561628300', '2406150807561628500', 'CJYD206114501AZ', 'CJPacket Ordinary I'),
+
+  ('coussin-voyage-gonflable-h', 'Coussin de Voyage Gonflable en H (gris clair)',
+   $$Un coussin de cou gonflable en forme de H, qui soutient la tête sur les côtés pour dormir un peu mieux en voiture, en train, en avion ou au bureau.
+
+Ce que vous obtenez :
+• Forme en H qui cale la tête de chaque côté, pour limiter le balancement quand on s'assoupit assis
+• Grande valve pour gonfler et dégonfler rapidement, avec cloisons internes qui évitent les fuites d'air
+• Housse en velours cristal très douce au toucher, doublée d'une chambre à air PVC
+• Cordon de serrage en nylon réglable, pour ajuster le coussin autour du cou
+• Se plie et se dégonfle pour tenir dans un sac ou une poche de bagage, hauteur gonflé d'environ 10 à 15 cm
+
+À gonfler au moment de s'installer et à ranger plat à l'arrivée : un compagnon de voyage léger pour les longs trajets, les siestes au bureau et les nuits en transports.$$,
+   2290, 'https://cf.cjdropshipping.com/1622799260212.jpg', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/1400751666202021888.html',
+   '1400751666202021888', '1400766651703627776', 'CJZT115982903CX', 'CJPacket Ordinary I'),
+
+  ('attelle-poignet-reglable', 'Attelle de Poignet Réglable (noir)',
+   $$Une orthèse de poignet légère qui maintient l'articulation avec une compression douce, pour travailler, s'entraîner ou porter des charges avec un meilleur soutien.
+
+Ce que vous obtenez :
+• Maintien ergonomique du poignet, de la main et de l'avant-bras, sans gêne excessive
+• Sangle de compression réglable avec fermeture auto-agrippante, pour serrer plus ou moins selon l'effort
+• Matière légère et respirante, avec des coutures solides qui tiennent dans le temps
+• Unisexe, convient à la main gauche comme à la main droite
+• Coloris noir sobre qui passe sous une manche ou se porte seul
+
+À enfiler pour la musculation, le vélo, les longues journées de clavier et de souris, ou les activités sollicitant les poignets. Ne remplace pas un avis médical en cas de douleur persistante.$$,
+   1990, 'https://cf.cjdropshipping.com/200df412-60c7-40ca-a462-6925c3d20702.jpg', 'bien-etre', 'sport-posture',
+   'https://cjdropshipping.com/product/1730098969252352000.html',
+   '1730098969252352000', '1730098969474650112', 'CJYD190980901AZ', 'Yunexpress CN to Multi-Region'),
+
+  ('chemin-de-table-coton-franges', 'Chemin de Table en Coton Tissé à Franges (33 x 160 cm)',
+   $$Un chemin de table en coton tissé à motif gaufré, bordé de longues franges, pour habiller une table à manger, une console ou un buffet avec un style naturel.
+
+Ce que vous obtenez :
+• Format de 33 × 160 cm, adapté à une table pour 4 à 6 personnes ou à un meuble d'entrée
+• Coton tissé au rendu texturé (motif gaufré), de teinte beige clair qui s'accorde avec le bois
+• Franges nouées aux deux extrémités, pour un côté bohème et chaleureux
+• Léger (environ 200 g), facile à plier et à ranger
+
+À poser au centre de la table pour un repas, sur une commode ou en décoration de cheminée, avec une assiette, une bougie ou un vase pour une ambiance simple et naturelle.$$,
+   1990, 'https://cf.cjdropshipping.com/quick/product/8dc7d989-16e0-4283-9ef9-bad3a34356b1.jpg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/2506020359111604900.html',
+   '2506020359111604900', '2506020359111605100', 'CJYD239088001AZ', 'CJPacket Ordinary I'),
+
+  ('suspension-plante-corde-tressee', 'Suspension pour Plante en Corde Tressée (105 cm)',
+   $$Une suspension à plante tressée à la main en corde naturelle, qui met une plante en hauteur sans percer de pot ni occuper de surface au sol.
+
+Ce que vous obtenez :
+• Longueur totale de 105 cm, avec un anneau de fixation en métal pour l'accrocher à un crochet
+• Tressage en corde naturelle de teinte beige, solide et peu déformable
+• Compatible avec les pots d'environ 15 à 20 cm de diamètre (pot et plante non fournis)
+• Très léger (environ 60 g) et se plie à plat pour le rangement
+
+À suspendre près d'une fenêtre, dans un coin du salon, sur un balcon ou dans une cuisine, pour végétaliser une pièce avec un style bohème discret.$$,
+   1290, 'https://cf.cjdropshipping.com/20190912/15091971155227.png', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/8DCB1DC5-0A43-49E3-B414-F64D6C31B904.html',
+   '8DCB1DC5-0A43-49E3-B414-F64D6C31B904', '0DE5E5A8-7263-410A-9845-C63E56546178', 'CJJJJTJT03735-Beige-105CM', 'CJPacket Ordinary I'),
+
+  ('branche-hortensia-boule-neige', 'Branche Décorative Hortensia « Boule de Neige » (blanc)',
+   $$Une tige de fleurs artificielles en soie, avec trois pompons blancs bien ronds sur un feuillage vert, pour un bouquet qui reste frais toute l'année.
+
+Ce que vous obtenez :
+• Trois pompons de fleurs blanches, finement détaillés, sur une tige ramifiée avec feuilles vertes
+• Fleurs en soie, aucun arrosage, aucun pollen, aucune fleur qui fane
+• Très léger (environ 70 g) : se glisse dans un vase étroit sans le déséquilibrer
+• Coloris blanc, qui s'accorde avec une déco nordique ou un intérieur clair
+
+À installer seule dans un vase, ou en bouquet avec d'autres tiges pour habiller une entrée, une table de chevet ou un rebord de fenêtre, sans entretien.$$,
+   1490, 'https://cf.cjdropshipping.com/quick/product/bcaef70d-6b02-44ca-9697-bb43831c66b3.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/2508300245001607900.html',
+   '2508300245001607900', '2508300245001608200', 'CJYD247286201AZ', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
