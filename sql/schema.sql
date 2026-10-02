@@ -1159,3 +1159,115 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Neuvieme vague de produits (2026-10-02, suite) : 6 articles (3 bien-etre,
+-- 3 maison) trouves via l'API CJdropshipping (listV2), avec prix de gros et
+-- livraison reelle vers la France verifies via freightCalculate (marge nette
+-- 38 a 45% apres TVA 20% et frais Stripe). Ecartes apres verification : des
+-- chaussettes de yoga (seule la semelle apparait sur les photos), une serviette
+-- (photo montrant six serviettes de tailles differentes), des pots en
+-- ceramique (photos trop petites), des tapis de yoga, un chauffe-pieds et un
+-- chauffe-tasse (livraison disproportionnee).
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('coussin-genoux-memoire-forme', 'Coussin Entre-Genoux en Mousse à Mémoire de Forme',
+   $$Un coussin profilé à glisser entre les genoux pour dormir sur le côté, afin de garder les jambes, les hanches et le bas du dos mieux alignés pendant la nuit.
+
+Ce que vous obtenez :
+• Forme courbe en « os », qui épouse l'espace entre les genoux et les cuisses
+• Mousse à mémoire de forme dans une housse en coton gris clair, douce au toucher
+• Dimensions d'environ 70 × 37 cm et 9 cm de hauteur, adaptées aux adultes
+• Deux sangles élastiques pour mieux le maintenir en place quand on bouge
+
+À utiliser en dormant sur le côté, ou installé entre les jambes en position allongée sur le canapé, pour plus de confort au quotidien.$$,
+   2990, 'https://cf.cjdropshipping.com/d4db78f3-9583-48a0-af43-51175d8514ab.jpg', 'bien-etre', 'sommeil-repos',
+   'https://cjdropshipping.com/product/1636237888109162496.html',
+   '1636237888109162496', '1636237888142716928', 'CJST170816201AZ', 'CJPacket Ordinary I'),
+
+  ('sangle-etirement-jambes', 'Sangle d''Étirement pour Jambes avec Boucles (155 cm)',
+   $$Une sangle d'étirement en néoprène avec une boucle pour le pied et plusieurs boucles de prise, pour s'étirer en douceur sans avoir à toucher ses orteils.
+
+Ce que vous obtenez :
+• Longueur de 155 cm, avec une boucle rembourrée qui se glisse autour du pied
+• Plusieurs boucles de prise réparties sur la sangle, pour régler l'intensité de l'étirement
+• Matière néoprène souple et résistante, qui reste confortable sous le pied
+• Légère et pliable, elle se range facilement dans un sac de sport
+
+À utiliser avant ou après une séance de sport, ou en yoga, couché sur le dos ou debout, pour travailler la souplesse des mollets, des cuisses et du dos.$$,
+   1490, 'https://cf.cjdropshipping.com/100923ab-d162-4ca9-a888-2d684521adc9.jpg', 'bien-etre', 'sport-posture',
+   'https://cjdropshipping.com/product/1441219130710691840.html',
+   '1441219130710691840', '1441219130832326656', 'CJJT129735301AZ', 'CJPacket Ordinary I'),
+
+  ('gant-gommage-kessa', 'Gant de Gommage Kessa (noir)',
+   $$Un gant de gommage kessa pour les rituels douche et hammam, qui exfolie la peau en douceur et la laisse nette avant un soin hydratant.
+
+Ce que vous obtenez :
+• Tissu texturé qui frotte efficacement la peau lors du gommage du corps
+• Bracelet élastique qui garde le gant bien en main, même mouillé
+• Cordelette d'accroche pour le faire sécher sur un crochet
+• Lavable et réutilisable, vendu à l'unité (un gant, pas une paire)
+• Coloris noir, qui ne marque pas
+
+À utiliser sous la douche sur peau humide, par mouvements circulaires, avant un gel douche ou un soin hydratant ; à rincer et à laisser sécher après chaque usage.$$,
+   990, 'https://cf.cjdropshipping.com/15419520/1801540329064.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/47A634C1-249D-42E8-BCBE-D0992EBDF4A9.html',
+   '47A634C1-249D-42E8-BCBE-D0992EBDF4A9', '086ED1D4-188E-429C-B80D-A48E0DA78494', 'CJJJJTYS00305-default', 'CJPacket Ordinary I'),
+
+  ('pot-the-ceramique-emeraude', 'Pot à Thé en Céramique Vert Émeraude (240 ml)',
+   $$Un petit pot à thé en céramique à émail vert émeraude, fermé par un couvercle en bois clair, pour ranger quelques infusions ou du thé en vrac avec élégance.
+
+Ce que vous obtenez :
+• Céramique émaillée à reflets irisés vert émeraude, chaque pièce a des variations qui la rendent unique
+• Couvercle en bois clair, qui complète bien le ton de l'émail
+• Format compact d'environ 5,3 cm de diamètre et 8 cm de hauteur, pour 240 ml de capacité
+• Léger (environ 240 g), facile à poser sur une étagère, un plan de travail ou un plateau à thé
+
+À garder sur le plan de travail pour un rituel du thé quotidien, ou à offrir en cadeau à un amateur d'infusions.$$,
+   1990, 'https://oss-cf.cjdropshipping.com/product/2024/12/13/07/22e961e0-a321-4df2-b863-b9532f3e7573_trans.jpeg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/2412130712011620900.html',
+   '2412130712011620900', '2412130712011621200', 'CJYD224281801AZ', 'CJPacket Ordinary I'),
+
+  ('tasse-the-ceramique-infuseur', 'Tasse à Thé en Céramique avec Infuseur et Couvercle (300 ml)',
+   $$Une tasse à thé en céramique décorée de petites fleurs bleues sur fond vert d'eau, livrée avec son filtre et son couvercle pour infuser les feuilles directement dans la tasse.
+
+Ce que vous obtenez :
+• Ensemble en trois pièces : tasse, filtre amovible et couvercle assorti
+• Céramique à décor bleu sous glaçure, d'allure rétro et artisanale
+• Capacité d'environ 300 ml, hauteur d'environ 11,5 cm, poids d'environ 550 g
+• Poignée ronde confortable à tenir
+
+Le couvercle garde le thé au chaud pendant l'infusion ; une fois le filtre retiré, la tasse sert aussi pour une tisane ou un café, au bureau comme à la maison.$$,
+   2490, 'https://oss-cf.cjdropshipping.com/product/2024/06/12/11/bc78ce6a-36a3-4416-88d5-fd45b45c22ab_trans.jpeg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/2406121123381610200.html',
+   '2406121123381610200', '2406121123381610400', 'CJYD205904701AZ', 'CJPacket Ordinary I'),
+
+  ('plaid-tricot-franges-beige', 'Plaid Tricoté à Franges Beige (127 x 180 cm)',
+   $$Un plaid en maille texturée avec franges aux extrémités, pour jeter sur un canapé ou un fauteuil et se blottir les soirées d'automne.
+
+Ce que vous obtenez :
+• Format de 127 × 180 cm franges comprises, pour s'envelopper confortablement sur le canapé
+• Maille texturée en acrylique, douce et légère (environ 480 g)
+• Franges aux deux extrémités pour un look nordique et cosy
+• Coloris beige crème, qui se marie avec la plupart des intérieurs
+• Convient en toute saison : léger l'été, rassurant dès les premiers frais
+
+À poser sur un canapé, un fauteuil ou le pied d'un lit pour habiller la pièce et avoir un plaid à portée de main pour la lecture ou la sieste.$$,
+   2990, 'https://oss-cf.cjdropshipping.com/product/2024/12/04/07/b94b30b2-6bfc-437f-9346-e72d45be25d7_trans.jpeg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/2412040749281608900.html',
+   '2412040749281608900', '2412040749281609100', 'CJYD223265902BY', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
