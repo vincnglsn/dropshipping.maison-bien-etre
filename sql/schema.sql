@@ -935,3 +935,115 @@ on conflict (slug) do update set
   cj_variant_id = excluded.cj_variant_id,
   cj_sku = excluded.cj_sku,
   cj_logistic_name = excluded.cj_logistic_name;
+
+-- Septieme vague de produits (2026-10-02, suite) : 6 articles (3 bien-etre,
+-- 3 maison) trouves via l'API CJdropshipping (listV2), avec prix de gros et
+-- livraison reelle vers la France verifies via freightCalculate (marge nette
+-- 36 a 42% apres TVA 20% et frais Stripe). Ecartes apres verification : un
+-- bloc de yoga et un massage oculaire a lumiere rouge (photos surchargees de
+-- texte promotionnel / allegations therapeutiques), une figurine grenouille,
+-- une guirlande LED et un oreiller cervical (livraison disproportionnee).
+insert into products (
+  slug, name, description, price_cents, image_url, category, subcategory, supplier_url,
+  cj_product_id, cj_variant_id, cj_sku, cj_logistic_name
+)
+values
+  ('diffuseur-flamme-volcan', 'Diffuseur d''Arômes Effet Flamme Volcan (USB)',
+   $$Un diffuseur d'arômes qui mêle brume fine et lumière orangée façon volcan en éruption, pour une ambiance de veilleuse chaleureuse le soir.
+
+Ce que vous obtenez :
+• Effet flamme lumineux qui rappelle un feu de cheminée, sans aucune flamme ni chaleur
+• Brume fine diffusée par 2 sorties, dans un boîtier blanc compact
+• Réservoir d'eau de moins de 0,5 L, avec protection automatique contre le fonctionnement à sec
+• Minuterie réglable de 2 à 8 heures, pour le laisser fonctionner pendant la soirée sans y penser
+• Alimentation par câble USB (fourni), à brancher sur un chargeur, un ordinateur ou une batterie externe
+• Conçu pour les petites pièces (moins de 10 m²) : chambre, bureau, coin lecture
+
+Quelques gouttes d'huile essentielle dans l'eau et vous obtenez un diffuseur aromatique ; sans huile, c'est un simple humidificateur d'ambiance, à poser sur une table de chevet ou un bureau.$$,
+   2990, 'https://cf.cjdropshipping.com/7487eb92-f23e-48a2-9cd5-ebdf136f32a3.jpg', 'bien-etre', 'soin-rituel',
+   'https://cjdropshipping.com/product/1602125961166860288.html',
+   '1602125961166860288', '1602125961246552064', 'CJJT163563001AZ', 'CJPacket Euro Sensitive F'),
+
+  ('echarpe-chauffante-usb', 'Écharpe Chauffante USB Effet Fourrure (grise)',
+   $$Une écharpe douce façon fourrure qui chauffe la nuque et les épaules, pour se réchauffer en quelques instants à la maison, au bureau ou dehors.
+
+Ce que vous obtenez :
+• Tissu peluche très doux, agréable contre la peau, avec une forme croisée facile à enfiler
+• 3 niveaux de chauffe (environ 42 °C, 48 °C et 55 °C), repérables à la couleur du voyant
+• Chauffe rapide : un appui long de 3 secondes sur le bouton suffit pour l'activer
+• Alimentation USB, légère (environ 190 g) et sans fil gênant autour du cou
+• Lavable selon le fabricant, sans avoir à démonter l'élément chauffant
+
+Parfaite pour les journées froides, le télétravail près d'une fenêtre ou une pause sur le canapé, et une idée cadeau originale pour les frileux.$$,
+   2190, 'https://cf.cjdropshipping.com/quick/product/ae731467-0292-410d-a8a3-d420269b7968.jpg', 'bien-etre', 'massage-detente',
+   'https://cjdropshipping.com/product/2410090540211619700.html',
+   '2410090540211619700', '2410090540221610200', 'CJYD215515201AZ', 'CJPacket Ordinary I'),
+
+  ('cone-massage-silicone', 'Cône de Massage en Silicone (points de tension)',
+   $$Un petit masseur triangulaire en silicone, pensé pour presser les points de tension du cou, des épaules et du dos avec le bout des doigts ou en le coinçant contre un mur.
+
+Ce que vous obtenez :
+• Forme à quatre pointes arrondies : chaque angle cible une zone différente (nuque, trapèzes, omoplates, bas du dos)
+• Silicone souple de qualité alimentaire, agréable au toucher et facile à nettoyer
+• Format main de 66 à 75 mm, très léger (environ 93 g), qui se glisse dans un sac ou un tiroir de bureau
+• Coloris vert d'eau
+
+À utiliser après le sport, en fin de journée devant l'écran, ou en voyage : appuyez doucement sur la zone sensible et faites de petits mouvements circulaires.$$,
+   2290, 'https://cf.cjdropshipping.com/ae6914e2-db46-48aa-80eb-541514e3aa9b.jpg', 'bien-etre', 'sport-posture',
+   'https://cjdropshipping.com/product/1694567562283470848.html',
+   '1694567562283470848', '1694567562317025282', 'CJJM1829584-Green', 'Yunexpress CN to Multi-Region'),
+
+  ('brule-encens-plateau-ceramique', 'Porte-Encens Plateau Céramique (blanc)',
+   $$Un porte-encens minimaliste en céramique émaillée : un plateau rond et une petite sphère qui tient le bâton, pour un rituel d'encens simple et sans cendres partout.
+
+Ce que vous obtenez :
+• Céramique blanche brillante, au design épuré qui s'accorde avec tous les intérieurs
+• Plateau d'environ 13,5 cm de diamètre qui récupère les cendres
+• Sphère intégrée qui maintient le bâton d'encens à l'inclinaison idéale
+• Pièce stable et lourde (environ 320 g), qui reste bien en place sur une table ou une étagère
+
+À poser sur un meuble d'entrée, un bureau ou un coin méditation, pour allumer un bâton d'encens avant de lire, de pratiquer le yoga ou en fin de journée.$$,
+   1990, 'https://cf.cjdropshipping.com/quick/product/1894164d-5fb0-4105-80ba-2ca4d0407092.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/2406100902111600600.html',
+   '2406100902111600600', '2406100902111601100', 'CJYD205731503CX', 'CJPacket Ordinary I'),
+
+  ('boule-cristal-3d-galaxie', 'Boule de Cristal 3D Lumineuse (Voie lactée)',
+   $$Une boule de cristal de 8 cm gravée en 3D d'une galaxie, posée sur un socle lumineux aux couleurs changeantes, pour une veilleuse déco qui fait toujours son effet.
+
+Ce que vous obtenez :
+• Boule de cristal transparent de 8 cm, avec une galaxie gravée en volume à l'intérieur
+• Socle lumineux qui se commande d'une simple touche et fait varier les couleurs de la lumière
+• Rendu spectaculaire dans la pénombre : la gravure s'illumine comme un petit univers
+• Une pièce de caractère d'environ 800 g, stable sur un bureau, une commode ou une table de chevet
+
+À offrir ou à garder pour soi : une veilleuse d'ambiance apaisante pour la chambre, ou une pièce de décoration pour un bureau ou un salon.$$,
+   2990, 'https://cf.cjdropshipping.com/quick/product/ec8ce6a0-711b-46ef-8ad7-af861ac9e988.jpg', 'decoration', 'objets-zen',
+   'https://cjdropshipping.com/product/1748518372326776832.html',
+   '1748518372326776832', '1748518372473577472', 'CJJT195238101AZ', 'CJPacket Ordinary I'),
+
+  ('housse-coussin-boheme-mandala', 'Housse de Coussin Bohème Mandala (45 x 45 cm)',
+   $$Une housse de coussin imprimée de motifs mandalas aux couleurs profondes (turquoise, rose, ocre), pour réchauffer un canapé, un lit ou un fauteuil d'une touche bohème.
+
+Ce que vous obtenez :
+• Format carré de 45 × 45 cm, qui s'adapte aux coussins standard
+• Tissu aspect lin imprimé, au rendu texturé et chaleureux
+• Motifs géométriques et floraux de style bohème, qui s'associent bien aux tentures et aux plantes
+• Vendue seule (housse uniquement, coussin non fourni)
+
+À associer avec un plaid et quelques coussins unis pour donner du relief à un canapé, ou à glisser sur un lit pour habiller une chambre sans effort.$$,
+   1490, 'https://cf.cjdropshipping.com/quick/product/d9f5f271-35a2-44c1-a52c-a561aade60e9.jpg', 'decoration', 'murs-textiles',
+   'https://cjdropshipping.com/product/1797827990378786816.html',
+   '1797827990378786816', '1797827990538170368', 'CJZT205287602BY', 'CJPacket Ordinary I')
+
+on conflict (slug) do update set
+  name = excluded.name,
+  description = excluded.description,
+  price_cents = excluded.price_cents,
+  image_url = excluded.image_url,
+  category = excluded.category,
+  subcategory = excluded.subcategory,
+  supplier_url = excluded.supplier_url,
+  cj_product_id = excluded.cj_product_id,
+  cj_variant_id = excluded.cj_variant_id,
+  cj_sku = excluded.cj_sku,
+  cj_logistic_name = excluded.cj_logistic_name;
